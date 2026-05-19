@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get help with Whirl — contact support, browse FAQs, or talk to sales.">
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Round:regular" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+    <title>Support — Whirl</title>
+</head>
+
+<body>
+    <div class="page">
+        <div data-include="header"></div>
+
+        <main class="main">
+            <section class="page-hero">
+                <div class="container">
+                    <p class="page-hero__eyebrow">Support</p>
+                    <h1 class="page-hero__title">We're here to help.</h1>
+                    <p class="page-hero__text">Send us a message and we'll get back within one business day. For urgent issues, reach us on the in-product chat.</p>
+                </div>
+            </section>
+
+            <section class="page-section">
+                <div class="container">
+                    <div class="form-card form-card--wide">
+                        <form data-handler="support" data-success="Message sent. We'll reply soon." novalidate>
+                            <div class="form__row">
+                                <label class="form__label" for="sup-name">Your name</label>
+                                <input class="form__input" id="sup-name" name="name" type="text" required autocomplete="name">
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="sup-email">Email</label>
+                                <input class="form__input" id="sup-email" name="email" type="email" required autocomplete="email">
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="sup-topic">Topic</label>
+                                <select class="form__select" id="sup-topic" name="topic" required>
+                                    <option value="">Select…</option>
+                                    <option>Billing</option>
+                                    <option>Bug report</option>
+                                    <option>Feature request</option>
+                                    <option>Account / security</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="sup-message">How can we help?</label>
+                                <textarea class="form__textarea" id="sup-message" name="message" required></textarea>
+                            </div>
+                            <button class="form__submit" type="submit">Send message</button>
+                            <p class="form__status" data-form-status></p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div data-include="footer"></div>
+    </div>
+</body>
+
+</html>

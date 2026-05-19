@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book a personalized 30-minute demo of Whirl.">
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Round:regular" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+    <title>Book a demo — Whirl</title>
+</head>
+
+<body>
+    <div class="page">
+        <div data-include="header"></div>
+
+        <main class="main">
+            <section class="page-hero">
+                <div class="container">
+                    <p class="page-hero__eyebrow">Book a demo</p>
+                    <h1 class="page-hero__title">See Whirl in 30 minutes.</h1>
+                    <p class="page-hero__text">Tell us a little about your team and we'll walk you through a workflow tailored to what you're trying to automate.</p>
+                </div>
+            </section>
+
+            <section class="page-section">
+                <div class="container">
+                    <div class="form-card form-card--wide">
+                        <form data-handler="demo" data-success="Thanks! We will reach out within 1 business day." novalidate>
+                            <div class="form__row form__row--inline">
+                                <div class="form__field">
+                                    <label class="form__label" for="demo-first">First name</label>
+                                    <input class="form__input" id="demo-first" name="first_name" type="text" required autocomplete="given-name">
+                                </div>
+                                <div class="form__field">
+                                    <label class="form__label" for="demo-last">Last name</label>
+                                    <input class="form__input" id="demo-last" name="last_name" type="text" required autocomplete="family-name">
+                                </div>
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="demo-email">Work email</label>
+                                <input class="form__input" id="demo-email" name="email" type="email" required autocomplete="email">
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="demo-company">Company</label>
+                                <input class="form__input" id="demo-company" name="company" type="text" required autocomplete="organization">
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="demo-size">Team size</label>
+                                <select class="form__select" id="demo-size" name="team_size" required>
+                                    <option value="">Select…</option>
+                                    <option value="1-10">1–10</option>
+                                    <option value="11-50">11–50</option>
+                                    <option value="51-200">51–200</option>
+                                    <option value="200+">200+</option>
+                                </select>
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="demo-message">What would you like to automate?</label>
+                                <textarea class="form__textarea" id="demo-message" name="message"></textarea>
+                            </div>
+                            <button class="form__submit" type="submit">Request a demo</button>
+                            <p class="form__status" data-form-status></p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div data-include="footer"></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to your Whirl account.">
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Round:regular" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+    <title>Sign in — Whirl</title>
+</head>
+
+<body>
+    <div class="page">
+        <div data-include="header"></div>
+
+        <main class="main">
+            <section class="page-section">
+                <div class="container">
+                    <div class="form-card">
+                        <h1 class="form-card__title">Welcome back</h1>
+                        <p class="form-card__text">Sign in to continue to your workspace.</p>
+
+                        <form data-handler="signin" data-success="Signed in. Redirecting…" novalidate>
+                            <div class="form__row">
+                                <label class="form__label" for="signin-email">Email</label>
+                                <input class="form__input" id="signin-email" name="email" type="email" required autocomplete="email">
+                            </div>
+                            <div class="form__row">
+                                <label class="form__label" for="signin-password">Password</label>
+                                <input class="form__input" id="signin-password" name="password" type="password" required autocomplete="current-password" minlength="6">
+                            </div>
+                            <button class="form__submit" type="submit">Sign in</button>
+                            <p class="form__status" data-form-status></p>
+                            <p class="form__hint">No account yet? <a href="demo.html">Book a demo</a> · <a href="password.html">Forgot password?</a></p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div data-include="footer"></div>
+    </div>
+</body>
+
+</html>
