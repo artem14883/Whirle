@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "mcp__2e8df5b9-9e8c-4747-8f3b-3b246a2f9a9e__use_figma",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(gh auth *)",
+      "Bash(git fetch *)",
+      "Bash(git add *)"
     ]
   }
 }
