@@ -1164,8 +1164,8 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     user-select: none;
 }
 .dish__visual {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     flex-shrink: 0;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #fff5e0 0%, #f0e1c4 55%, #c6b18a 100%);
@@ -1176,6 +1176,22 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
         0 8px 18px rgba(0,0,0,0.4);
     transition: transform .35s var(--ease), box-shadow .35s var(--ease);
     align-self: center;
+    position: relative;
+    overflow: hidden;
+}
+.dish__visual img {
+    position: absolute;
+    inset: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    object-fit: cover;
+    border-radius: inherit;
+    transition: transform .6s var(--ease), filter .35s var(--ease);
+    filter: saturate(1.05);
+}
+.dish:hover .dish__visual img {
+    transform: scale(1.12);
+    filter: saturate(1.15) brightness(1.05);
 }
 .dish:hover .dish__visual {
     transform: rotate(20deg) scale(1.05);
@@ -1188,8 +1204,18 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 
 /* Більші для сетів */
 .dish--big .dish__visual {
-    width: 76px;
-    height: 76px;
+    width: 88px;
+    height: 88px;
+}
+.dish__visual--stack img,
+.dish__visual--nigiri img,
+.dish__visual--bowl img,
+.dish__visual--donut img,
+.dish__visual--snack img {
+    border-radius: inherit;
+}
+.dish__visual--snack {
+    overflow: hidden;
 }
 .dish__visual--stack {
     border-radius: 14px;

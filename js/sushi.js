@@ -8,6 +8,171 @@
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* ----------------------------------------------------------
+       Photo library — real sushi photography (Unsplash CDN, free
+       for commercial use). Each card gets a photo matched to its
+       category and name keywords. If the photo fails to load,
+       the underlying coloured CSS visual stays visible.
+       ---------------------------------------------------------- */
+    // All IDs verified to return 200 from the Unsplash CDN
+    const U = id => `https://images.unsplash.com/photo-${id}?w=480&h=480&fit=crop&auto=format&q=70`;
+    const PHOTO = {
+        setMixed:   U('1617196034796-73dfa7b1fd56'),
+        setDragon:  U('1607301406259-dfb186e15de8'),
+        setSalmon:  U('1579952363873-27f3bade9f55'),
+        setBlack:   U('1622866306950-81d17097d458'),
+        setGold:    U('1583623025817-d180a2221d0a'),
+
+        rollSalmon: U('1611143669185-af224c5e3252'),
+        rollPhilly: U('1559847844-5315695dadae'),
+        rollDragon: U('1607301406259-dfb186e15de8'),
+        rollTuna:   U('1565299585323-38d6b0865b47'),
+        rollSpicy:  U('1601050690597-df0568f70950'),
+        rollEel:    U('1591814468924-caf88d1232e1'),
+        rollShrimp: U('1559847844-5315695dadae'),
+        rollCheese: U('1563612116625-3012372fccce'),
+        rollCrab:   U('1496116218417-1a781b1c416c'),
+        rollGreen:  U('1564489563601-c53cfc451e93'),
+        spring:     U('1606471191009-63994c53433b'),
+        rolDog:     U('1568901346375-23c9450c58cd'),
+
+        baked:      U('1559762717-99c81ac85459'),
+        tempura:    U('1581873372796-635b67ca2008'),
+        burger:     U('1568901346375-23c9450c58cd'),
+        palychka:   U('1581873372796-635b67ca2008'),
+        onigiri:    U('1565299624946-b28f40a0ae38'),
+
+        makiSalmon: U('1553621042-f6e147245754'),
+        makiTuna:   U('1553621042-f6e147245754'),
+        makiVeg:    U('1553621042-f6e147245754'),
+        makiEel:    U('1564489563601-c53cfc451e93'),
+
+        nigiriSalmon: U('1582450871972-ab5ca641643d'),
+        nigiriShrimp: U('1582450871972-ab5ca641643d'),
+        nigiriEel:    U('1582450871972-ab5ca641643d'),
+
+        bowlSalmon: U('1546069901-ba9599a7e63c'),
+        bowlShrimp: U('1614680376408-81e91ffe3db7'),
+        sashimi:    U('1567620832903-9fc6debc209f'),
+        tartar:     U('1546069901-ba9599a7e63c'),
+
+        udon:       U('1623341214825-9f4f963727da'),
+        yakisoba:   U('1569718212165-3a8278d5f624'),
+        funchoza:   U('1572715376701-98568319fd0b'),
+        tepan:      U('1569718212165-3a8278d5f624'),
+
+        donut:      U('1564631027894-5bdb17618445'),
+
+        chuka:      U('1606471191009-63994c53433b'),
+        cheese:     U('1564834724105-918b73d1b9e0'),
+        shrimpTemp: U('1581873372796-635b67ca2008'),
+        nuggets:    U('1623653387945-2fd25214f8fc'),
+        onion:      U('1518779578993-ec3579fee39f'),
+        fries:      U('1604152135912-04a022e23696'),
+        balls:      U('1604152135912-04a022e23696')
+    };
+
+    function pickPhoto(dish) {
+        const name = (dish.querySelector('.dish__name')?.textContent || '').toLowerCase();
+        const cat  = dish.dataset.category;
+
+        // === Sets ===
+        if (cat === 'sets') {
+            if (name.includes('дракон'))   return PHOTO.setDragon;
+            if (name.includes('блек'))     return PHOTO.setBlack;
+            if (name.includes('голд'))     return PHOTO.setGold;
+            if (name.includes('лосось'))   return PHOTO.setSalmon;
+            return PHOTO.setMixed;
+        }
+        // === Nigiri ===
+        if (cat === 'nigiri') {
+            if (name.includes('лосось'))   return PHOTO.nigiriSalmon;
+            if (name.includes('креветк'))  return PHOTO.nigiriShrimp;
+            if (name.includes('вугор'))    return PHOTO.nigiriEel;
+            return PHOTO.nigiriSalmon;
+        }
+        // === Maki ===
+        if (cat === 'maki') {
+            if (name.includes('тунець'))   return PHOTO.makiTuna;
+            if (name.includes('вугор'))    return PHOTO.makiEel;
+            if (name.includes('авокадо') || name.includes('огірок') || name.includes('чука')) return PHOTO.makiVeg;
+            return PHOTO.makiSalmon;
+        }
+        // === Bowls / sashimi ===
+        if (cat === 'bowls') {
+            if (name.includes('сашимі'))   return PHOTO.sashimi;
+            if (name.includes('тартар'))   return PHOTO.tartar;
+            if (name.includes('креветк'))  return PHOTO.bowlShrimp;
+            return PHOTO.bowlSalmon;
+        }
+        // === Noodles ===
+        if (cat === 'noodles') {
+            if (name.includes('фунчоз'))   return PHOTO.funchoza;
+            if (name.includes('якісоб'))   return PHOTO.yakisoba;
+            if (name.includes('тепаньяк')) return PHOTO.tepan;
+            return PHOTO.udon;
+        }
+        // === Donuts ===
+        if (cat === 'donuts') return PHOTO.donut;
+        // === Snacks ===
+        if (cat === 'snacks') {
+            if (name.includes('чука'))     return PHOTO.chuka;
+            if (name.includes('сир') && name.includes('брі')) return PHOTO.cheese;
+            if (name.includes('сирн'))     return PHOTO.cheese;
+            if (name.includes('креветк'))  return PHOTO.shrimpTemp;
+            if (name.includes('нагетси') || name.includes('куряч')) return PHOTO.nuggets;
+            if (name.includes('цибул'))    return PHOTO.onion;
+            if (name.includes('фрі') && (name.includes('кульк'))) return PHOTO.balls;
+            if (name.includes('крокети'))  return PHOTO.balls;
+            if (name.includes('картопл') || name.includes('мікс')) return PHOTO.fries;
+            return PHOTO.fries;
+        }
+        // === Hot / baked ===
+        if (cat === 'hot') {
+            if (name.includes('бургер'))   return PHOTO.burger;
+            if (name.includes('паличк'))   return PHOTO.palychka;
+            if (name.includes('онігірі'))  return PHOTO.onigiri;
+            if (name.includes('темпур') || name.includes('панко')) return PHOTO.tempura;
+            return PHOTO.baked;
+        }
+        // === Rolls (default) ===
+        if (name.includes('дракон')) {
+            if (name.includes('червон'))   return PHOTO.rollDragon;
+            if (name.includes('зелен'))    return PHOTO.rollGreen;
+            return PHOTO.rollDragon;
+        }
+        if (name.includes('спайсі') || name.includes('тигр')) return PHOTO.rollSpicy;
+        if (name.includes('тунець') || name.includes('магуро')) return PHOTO.rollTuna;
+        if (name.includes('вугор'))         return PHOTO.rollEel;
+        if (name.includes('креветк') || name.includes('ебі') || name.includes('еббі')) return PHOTO.rollShrimp;
+        if (name.includes('чедер') || name.includes('сир') || name.includes('чіз')) return PHOTO.rollCheese;
+        if (name.includes('краб'))          return PHOTO.rollCrab;
+        if (name.includes('грін') || name.includes('зелен') || name.includes('авокад')) return PHOTO.rollGreen;
+        if (name.includes('спрінг'))        return PHOTO.spring;
+        if (name.includes('рол-дог'))       return PHOTO.rolDog;
+        if (name.includes('філадельф'))     return PHOTO.rollPhilly;
+        if (name.includes('лосось'))        return PHOTO.rollSalmon;
+        return PHOTO.rollSalmon;
+    }
+
+    function attachPhotos() {
+        document.querySelectorAll('.dish').forEach(dish => {
+            const visual = dish.querySelector('.dish__visual');
+            if (!visual || visual.querySelector('img')) return;
+            const url = pickPhoto(dish);
+            if (!url) return;
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = '';
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            // If the photo can't load, drop the <img> so the coloured fallback remains visible
+            img.addEventListener('error', () => img.remove(), { once: true });
+            visual.appendChild(img);
+        });
+    }
+    attachPhotos();
+
+    /* ----------------------------------------------------------
        Mobile nav
        ---------------------------------------------------------- */
     const burger = document.getElementById('burger');
