@@ -70,10 +70,10 @@
                     японський рис і авторські соуси — щоранку нова партія.
                 </p>
                 <div class="hero__actions">
-                    <a href="#menu" class="btn btn--primary">
+                    <button type="button" class="btn btn--primary" data-order-trigger>
                         <span>Замовити</span>
-                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M5 12h12.17l-3.58-3.59L15 7l6 6-6 6-1.41-1.41L17.17 14H5z"/></svg>
-                    </a>
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 15.5c-1.3 0-2.6-.2-3.8-.6a1 1 0 0 0-1 .2l-2.2 2.2a15.1 15.1 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .2-1A11 11 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1A17 17 0 0 0 20 21a1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1Z"/></svg>
+                    </button>
                     <a href="#sets" class="btn btn--ghost">
                         <span>Сет тижня</span>
                         <em class="btn__price">−25%</em>
@@ -144,145 +144,1047 @@
         <div class="container">
             <header class="section__head">
                 <span class="section__kicker">お品書き · Меню</span>
-                <h2 class="section__title">Хіти кухні</h2>
-                <p class="section__sub">Найпопулярніші позиції за відгуками гостей.</p>
+                <h2 class="section__title">Понад 100 позицій</h2>
+                <p class="section__sub">Класичні роли, авторські сети, локшина, боули, нігірі та снеки. Натисніть на будь-яку позицію — і ми зателефонуємо.</p>
             </header>
 
-            <div class="menu__grid">
+            <div class="menu__filters" role="tablist">
+                <button type="button" class="menu__filter is-active" data-filter="all">Усе</button>
+                <button type="button" class="menu__filter" data-filter="sets">Сети</button>
+                <button type="button" class="menu__filter" data-filter="rolls">Роли</button>
+                <button type="button" class="menu__filter" data-filter="hot">Запечені та хот</button>
+                <button type="button" class="menu__filter" data-filter="maki">Макі</button>
+                <button type="button" class="menu__filter" data-filter="nigiri">Нігірі</button>
+                <button type="button" class="menu__filter" data-filter="bowls">Боули</button>
+                <button type="button" class="menu__filter" data-filter="noodles">Локшина</button>
+                <button type="button" class="menu__filter" data-filter="donuts">Пончики</button>
+                <button type="button" class="menu__filter" data-filter="snacks">Снеки</button>
+            </div>
 
-                <article class="dish reveal" data-tilt>
-                    <div class="dish__media">
-                        <div class="dish__plate"></div>
-                        <div class="dish__shadow"></div>
-                        <div class="dish__art dish__art--salmon">
-                            <span class="roll roll--1"></span>
-                            <span class="roll roll--2"></span>
-                            <span class="roll roll--3"></span>
-                            <span class="roll roll--4"></span>
-                        </div>
-                    </div>
+            <div class="menu__grid" id="menu-grid">
+
+                <!-- ===== СЕТИ ===== -->
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual dish__visual--stack"></div>
                     <div class="dish__body">
                         <span class="dish__tag">★ хіт</span>
-                        <h3 class="dish__name">Суші Лосось</h3>
-                        <p class="dish__desc">Лосось холодного копчення, рис «Кошіхікарі», норі.</p>
-                        <div class="dish__foot">
-                            <span class="dish__price">від 65 ₴</span>
-                            <span class="dish__weight">2 шт · 60 г</span>
-                        </div>
+                        <h3 class="dish__name">Дракон Сет</h3>
+                        <p class="dish__desc">Червоний дракон, зелений дракон, тигровий дракон, чорний дракон.</p>
+                        <div class="dish__foot"><span class="dish__price">1 200 ₴</span><span class="dish__weight">1 кг</span></div>
                     </div>
                 </article>
 
-                <article class="dish reveal" data-tilt>
-                    <div class="dish__media">
-                        <div class="dish__plate"></div>
-                        <div class="dish__shadow"></div>
-                        <div class="dish__art dish__art--green">
-                            <span class="roll roll--1"></span>
-                            <span class="roll roll--2"></span>
-                            <span class="roll roll--3"></span>
-                            <span class="roll roll--4"></span>
-                        </div>
-                    </div>
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--stack"></div>
                     <div class="dish__body">
-                        <span class="dish__tag">авторське</span>
-                        <h3 class="dish__name">Хіяші Гурін</h3>
-                        <p class="dish__desc">Огірок, авокадо, кріп-роса, нері-кунжут, легкий вінегрет з юдзу.</p>
-                        <div class="dish__foot">
-                            <span class="dish__price">від 185 ₴</span>
-                            <span class="dish__weight">8 шт · 220 г</span>
-                        </div>
+                        <span class="dish__tag">преміум</span>
+                        <h3 class="dish__name">Преміум</h3>
+                        <p class="dish__desc">Філадельфія, червоний дракон, вугор-лосось, потрійна креветка.</p>
+                        <div class="dish__foot"><span class="dish__price">1 240 ₴</span><span class="dish__weight">1 050 г</span></div>
                     </div>
                 </article>
 
-                <article class="dish reveal" data-tilt>
-                    <div class="dish__media">
-                        <div class="dish__plate"></div>
-                        <div class="dish__shadow"></div>
-                        <div class="dish__art dish__art--tiger">
-                            <span class="roll roll--1"></span>
-                            <span class="roll roll--2"></span>
-                            <span class="roll roll--3"></span>
-                            <span class="roll roll--4"></span>
-                        </div>
-                    </div>
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #f4b8a0">
+                    <div class="dish__visual dish__visual--stack"></div>
                     <div class="dish__body">
-                        <span class="dish__tag">гарячий</span>
-                        <h3 class="dish__name">Темпура Ебі</h3>
-                        <p class="dish__desc">Хрустка креветка в темпурі, авокадо, унагі-соус, кунжут.</p>
-                        <div class="dish__foot">
-                            <span class="dish__price">від 245 ₴</span>
-                            <span class="dish__weight">8 шт · 250 г</span>
-                        </div>
+                        <span class="dish__tag">класика</span>
+                        <h3 class="dish__name">Філадельфія Сет</h3>
+                        <p class="dish__desc">Філадельфія, філадельфія класік, філадельфія подвійний сир.</p>
+                        <div class="dish__foot"><span class="dish__price">990 ₴</span><span class="dish__weight">1 кг</span></div>
                     </div>
                 </article>
 
-                <article class="dish reveal" data-tilt>
-                    <div class="dish__media">
-                        <div class="dish__plate"></div>
-                        <div class="dish__shadow"></div>
-                        <div class="dish__art dish__art--philly">
-                            <span class="roll roll--1"></span>
-                            <span class="roll roll--2"></span>
-                            <span class="roll roll--3"></span>
-                            <span class="roll roll--4"></span>
-                        </div>
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #232323">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">фірмовий</span>
+                        <h3 class="dish__name">Блек</h3>
+                        <p class="dish__desc">Блек темпура, чіз з вугрем, філадельфія класік, туна з лососем, блек тобіко.</p>
+                        <div class="dish__foot"><span class="dish__price">990 ₴</span><span class="dish__weight">1,2 кг</span></div>
                     </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #d4af37">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">золотий</span>
+                        <h3 class="dish__name">Сет Голд</h3>
+                        <p class="dish__desc">Фурі рол, чіз, інь-янь, гранд рол.</p>
+                        <div class="dish__foot"><span class="dish__price">920 ₴</span><span class="dish__weight">1 кг</span></div>
+                    </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сет</span>
+                        <h3 class="dish__name">Лосось Сет</h3>
+                        <p class="dish__desc">Каліфорнія лосось, даба лосось, філадельфія кунжут, макі лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">820 ₴</span><span class="dish__weight">700 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сет</span>
+                        <h3 class="dish__name">Токіо</h3>
+                        <p class="dish__desc">Філадельфія класік, тунець ебі, чедер рол, філадельфія хот.</p>
+                        <div class="dish__foot"><span class="dish__price">820 ₴</span><span class="dish__weight">1 кг</span></div>
+                    </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сет</span>
+                        <h3 class="dish__name">Фрі Сет</h3>
+                        <p class="dish__desc">Панко, темпура, чікен чіз, тунець хот.</p>
+                        <div class="dish__foot"><span class="dish__price">800 ₴</span><span class="dish__weight">1 кг</span></div>
+                    </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #f4b8a0">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сет</span>
+                        <h3 class="dish__name">50 / 50</h3>
+                        <p class="dish__desc">Чедер+авокадо, темпура, тунець+креветка.</p>
+                        <div class="dish__foot"><span class="dish__price">990 ₴</span><span class="dish__weight">750 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сет</span>
+                        <h3 class="dish__name">Гриль Сет</h3>
+                        <p class="dish__desc">Лосось/тунець гриль, запечений з креветкою, запечений з вугром.</p>
+                        <div class="dish__foot"><span class="dish__price">650 ₴</span><span class="dish__weight">750 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish dish--big" data-category="sets" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual dish__visual--stack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сет</span>
+                        <h3 class="dish__name">Триніті</h3>
+                        <p class="dish__desc">Спайсі макі, еббі кранч, краб рол.</p>
+                        <div class="dish__foot"><span class="dish__price">550 ₴</span><span class="dish__weight">750 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== РОЛИ ===== -->
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
                     <div class="dish__body">
                         <span class="dish__tag">класика</span>
                         <h3 class="dish__name">Філадельфія</h3>
-                        <p class="dish__desc">Лосось, вершковий сир «Хоккайдо», огірок, рис, кунжутна стрічка.</p>
-                        <div class="dish__foot">
-                            <span class="dish__price">від 215 ₴</span>
-                            <span class="dish__weight">8 шт · 240 г</span>
-                        </div>
+                        <p class="dish__desc">Норі, рис, сир, огірок, копчений лосось, чедер, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">240 ₴</span><span class="dish__weight">250 г</span></div>
                     </div>
                 </article>
 
-                <article class="dish reveal" data-tilt>
-                    <div class="dish__media">
-                        <div class="dish__plate"></div>
-                        <div class="dish__shadow"></div>
-                        <div class="dish__art dish__art--spice">
-                            <span class="roll roll--1"></span>
-                            <span class="roll roll--2"></span>
-                            <span class="roll roll--3"></span>
-                            <span class="roll roll--4"></span>
-                        </div>
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">класика</span>
+                        <h3 class="dish__name">Філадельфія Класік</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок.</p>
+                        <div class="dish__foot"><span class="dish__price">175 ₴</span><span class="dish__weight">250 г</span></div>
                     </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">з чедером</span>
+                        <h3 class="dish__name">Філадельфія Чедер</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, лосось копчений, чедер, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">340 ₴</span><span class="dish__weight">260 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #f4b8a0">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">premium</span>
+                        <h3 class="dish__name">Філадельфія Подвійний Сир</h3>
+                        <p class="dish__desc">Норі, рис, сир, ікра тобіко, лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">290 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">з фрі</span>
+                        <h3 class="dish__name">Фурі Рол</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, лосось, фрі, ікра тобіко, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">260 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сирний</span>
+                        <h3 class="dish__name">Чедер Рол</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, лосось копчений, чедер, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #232323">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">вугор</span>
+                        <h3 class="dish__name">Чорний Дракон</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, вугор, унагі, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">260 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">★ хіт</span>
+                        <h3 class="dish__name">Червоний Дракон</h3>
+                        <p class="dish__desc">Норі, рис, сир, авокадо, лосось, вугор, ікра тобіко, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">360 ₴</span><span class="dish__weight">255 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #6aa86a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">авокадо</span>
+                        <h3 class="dish__name">Зелений Дракон</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, авокадо, вугор, унагі, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">310 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">авторський</span>
+                        <h3 class="dish__name">Тигровий Дракон</h3>
+                        <p class="dish__desc">Норі, рис, сир, авокадо, лосось копчений, креветка, спайсі, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">320 ₴</span><span class="dish__weight">260 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сир</span>
+                        <h3 class="dish__name">Чіз Рол</h3>
+                        <p class="dish__desc">Норі, рис, огірок, лосось, креветка, чедер, унагі, пармезан.</p>
+                        <div class="dish__foot"><span class="dish__price">240 ₴</span><span class="dish__weight">255 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">вугор</span>
+                        <h3 class="dish__name">Вугор з Лососем</h3>
+                        <p class="dish__desc">Норі, рис, сир, авокадо, вугор, масаго, лосось копчений, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">340 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #6aa86a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">авокадо</span>
+                        <h3 class="dish__name">Грін Рол</h3>
+                        <p class="dish__desc">Норі, рис, сир, сніжний краб, авокадо, лосось, унагі, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">260 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">лосось</span>
+                        <h3 class="dish__name">Даба Лосось</h3>
+                        <p class="dish__desc">Норі, рис, сир, рисові кульки, лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">300 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">креветка</span>
+                        <h3 class="dish__name">Еббі Кранч</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, креветка темпура, кранч, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">220 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">креветка</span>
+                        <h3 class="dish__name">Ебі Чедер</h3>
+                        <p class="dish__desc">Норі, рис, сир, манго, креветка темпура, чедер, мигдаль.</p>
+                        <div class="dish__foot"><span class="dish__price">195 ₴</span><span class="dish__weight">260 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">креветка</span>
+                        <h3 class="dish__name">Ебі Чіз</h3>
+                        <p class="dish__desc">Норі, рис, сир, авокадо, креветки, ікра тобіко.</p>
+                        <div class="dish__foot"><span class="dish__price">210 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #f4b8a0">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">класика</span>
+                        <h3 class="dish__name">Каліфорнія</h3>
+                        <p class="dish__desc">Норі, рис, огірок, авокадо, креветка або лосось, ікра тобіко.</p>
+                        <div class="dish__foot"><span class="dish__price">250 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">лосось</span>
+                        <h3 class="dish__name">Кампай Сяке</h3>
+                        <p class="dish__desc">Норі, рис, сир, лосось, хіяші, кунжут, горіховий соус.</p>
+                        <div class="dish__foot"><span class="dish__price">195 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">креветка</span>
+                        <h3 class="dish__name">Кіро</h3>
+                        <p class="dish__desc">Норі, рис, сир, манго, креветка, авокадо, унагі, мигдаль.</p>
+                        <div class="dish__foot"><span class="dish__price">250 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">краб</span>
+                        <h3 class="dish__name">Краб Рол</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, сніжний краб, кунжут, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">175 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">тунець</span>
+                        <h3 class="dish__name">Магуро Тунець</h3>
+                        <p class="dish__desc">Норі, рис, огірок, сир, тунець, стружка магуро.</p>
+                        <div class="dish__foot"><span class="dish__price">210 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">креветка</span>
+                        <h3 class="dish__name">Потрійна Креветка</h3>
+                        <p class="dish__desc">Норі, рис, сир, авокадо, креветка, ікра тобіко.</p>
+                        <div class="dish__foot"><span class="dish__price">280 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
                     <div class="dish__body">
                         <span class="dish__tag">гостре</span>
-                        <h3 class="dish__name">Спайсі Тунець</h3>
-                        <p class="dish__desc">Тунець, спайсі-маринад, авокадо, цибуля-шніт, чорний кунжут.</p>
-                        <div class="dish__foot">
-                            <span class="dish__price">від 235 ₴</span>
-                            <span class="dish__weight">8 шт · 230 г</span>
-                        </div>
+                        <h3 class="dish__name">Спайсі</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, лосось, соус спайсі.</p>
+                        <div class="dish__foot"><span class="dish__price">195 ₴</span><span class="dish__weight">250 г</span></div>
                     </div>
                 </article>
 
-                <article class="dish reveal" data-tilt>
-                    <div class="dish__media">
-                        <div class="dish__plate"></div>
-                        <div class="dish__shadow"></div>
-                        <div class="dish__art dish__art--maki">
-                            <span class="roll roll--1"></span>
-                            <span class="roll roll--2"></span>
-                            <span class="roll roll--3"></span>
-                            <span class="roll roll--4"></span>
-                        </div>
-                    </div>
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
                     <div class="dish__body">
-                        <span class="dish__tag">веган</span>
-                        <h3 class="dish__name">Маки Йосай</h3>
-                        <p class="dish__desc">Маринований дайкон, шіїтаке, авокадо, рис, норі, паста місо.</p>
-                        <div class="dish__foot">
-                            <span class="dish__price">від 155 ₴</span>
-                            <span class="dish__weight">6 шт · 170 г</span>
-                        </div>
+                        <span class="dish__tag">тобіко</span>
+                        <h3 class="dish__name">Тобіко</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, копчений лосось, ікра тобіко.</p>
+                        <div class="dish__foot"><span class="dish__price">220 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">рол-дог</span>
+                        <h3 class="dish__name">Рол-Дог з Куркою</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, курка, перець, чука, кранч, часниковий соус.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">рол-дог</span>
+                        <h3 class="dish__name">Рол-Дог з Тунцем</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, тунець, авокадо, спайсі, чилі.</p>
+                        <div class="dish__foot"><span class="dish__price">280 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">рол-дог</span>
+                        <h3 class="dish__name">Рол-Дог з Лососем</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, лосось, вугор, масаго, авокадо, рисові кульки.</p>
+                        <div class="dish__foot"><span class="dish__price">270 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #ffffff">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">спрінг</span>
+                        <h3 class="dish__name">Спрінг Сніжний</h3>
+                        <p class="dish__desc">Сніжний краб, сир, огірок.</p>
+                        <div class="dish__foot"><span class="dish__price">180 ₴</span><span class="dish__weight">130 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">спрінг</span>
+                        <h3 class="dish__name">Спрінг з Креветкою</h3>
+                        <p class="dish__desc">Креветка тигрова, сир, ікра масаго, авокадо.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">130 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">спрінг</span>
+                        <h3 class="dish__name">Спрінг з Лососем</h3>
+                        <p class="dish__desc">Лосось, авокадо, сир.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">130 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="rolls" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">спрінг</span>
+                        <h3 class="dish__name">Спрінг Туна-Лосось</h3>
+                        <p class="dish__desc">Лосось, тунець, авокадо, огірок.</p>
+                        <div class="dish__foot"><span class="dish__price">260 ₴</span><span class="dish__weight">130 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== ЗАПЕЧЕНІ ТА ХОТ ===== -->
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">запечений</span>
+                        <h3 class="dish__name">Запечений з Лососем</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, ікра тобіко, сирна шапка.</p>
+                        <div class="dish__foot"><span class="dish__price">220 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">запечений</span>
+                        <h3 class="dish__name">Запечений з Тунцем</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, ікра тобіко, сирна шапка.</p>
+                        <div class="dish__foot"><span class="dish__price">210 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">панко</span>
+                        <h3 class="dish__name">Панко</h3>
+                        <p class="dish__desc">Норі, рис, огірок, креветка, панко сухарі, унагі, лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">220 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">темпура</span>
+                        <h3 class="dish__name">Темпура</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, креветка темпура.</p>
+                        <div class="dish__foot"><span class="dish__price">220 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">хот</span>
+                        <h3 class="dish__name">Тунець Хот</h3>
+                        <p class="dish__desc">Норі, рис, сир, тунець, панко сухарі.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">хот</span>
+                        <h3 class="dish__name">Філадельфія Хот</h3>
+                        <p class="dish__desc">Норі, рис, сир, лосось, панко сухарі.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">курка</span>
+                        <h3 class="dish__name">Чікен Чіз</h3>
+                        <p class="dish__desc">Норі, рис, сир, огірок, курка, чедер, перець, панко сухарі.</p>
+                        <div class="dish__foot"><span class="dish__price">175 ₴</span><span class="dish__weight">250 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">онігірі фрі</span>
+                        <h3 class="dish__name">Онігірі Фрі Креветка</h3>
+                        <p class="dish__desc">Креветка, норі, рис, сир, чедер, авокадо.</p>
+                        <div class="dish__foot"><span class="dish__price">350 ₴</span><span class="dish__weight">390 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">онігірі фрі</span>
+                        <h3 class="dish__name">Онігірі Фрі Лосось</h3>
+                        <p class="dish__desc">Лосось, норі, рис, сир, чедер, авокадо.</p>
+                        <div class="dish__foot"><span class="dish__price">370 ₴</span><span class="dish__weight">430 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">онігірі фрі</span>
+                        <h3 class="dish__name">Онігірі Фрі Тунець</h3>
+                        <p class="dish__desc">Тунець, норі, рис, сир, чедер, авокадо.</p>
+                        <div class="dish__foot"><span class="dish__price">360 ₴</span><span class="dish__weight">420 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">паличка фрі</span>
+                        <h3 class="dish__name">Паличка Фрі з Крабом</h3>
+                        <p class="dish__desc">Крабова паличка, норі, рис, сир, чедер, авокадо, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">160 ₴</span><span class="dish__weight">200 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">паличка фрі</span>
+                        <h3 class="dish__name">Паличка Фрі з Лососем</h3>
+                        <p class="dish__desc">Лосось, норі, рис, сир, чедер, авокадо, масаго, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">190 ₴</span><span class="dish__weight">200 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">паличка фрі</span>
+                        <h3 class="dish__name">Паличка Фрі з Креветкою</h3>
+                        <p class="dish__desc">Креветка, норі, рис, сир, чедер, авокадо.</p>
+                        <div class="dish__foot"><span class="dish__price">180 ₴</span><span class="dish__weight">200 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">бургер</span>
+                        <h3 class="dish__name">Бургер з Креветкою</h3>
+                        <p class="dish__desc">Креветка, норі, рис, сир, масаго, авокадо, огірок, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">320 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">бургер</span>
+                        <h3 class="dish__name">Бургер з Тунцем</h3>
+                        <p class="dish__desc">Тунець, норі, рис, сир, масаго, авокадо, огірок, спайсі.</p>
+                        <div class="dish__foot"><span class="dish__price">340 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="hot" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">бургер</span>
+                        <h3 class="dish__name">Бургер з Лососем</h3>
+                        <p class="dish__desc">Лосось, норі, рис, сир, масаго, авокадо, огірок, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">330 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== МАКІ ===== -->
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Креветка</h3>
+                        <p class="dish__desc">Норі, рис, креветка.</p>
+                        <div class="dish__foot"><span class="dish__price">120 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #6aa86a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Авокадо</h3>
+                        <p class="dish__desc">Норі, рис, авокадо.</p>
+                        <div class="dish__foot"><span class="dish__price">120 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #5b8c5a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Чука</h3>
+                        <p class="dish__desc">Норі, рис, салат чука.</p>
+                        <div class="dish__foot"><span class="dish__price">95 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Тунець</h3>
+                        <p class="dish__desc">Норі, рис, тунець.</p>
+                        <div class="dish__foot"><span class="dish__price">140 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #6aa86a">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Огірок</h3>
+                        <p class="dish__desc">Норі, рис, огірок.</p>
+                        <div class="dish__foot"><span class="dish__price">85 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Лосось</h3>
+                        <p class="dish__desc">Норі, рис, лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">140 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Копчений</h3>
+                        <p class="dish__desc">Норі, рис, копчений лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">140 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="maki" data-order-trigger style="--c: #232323">
+                    <div class="dish__visual"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">макі</span>
+                        <h3 class="dish__name">Макі Вугор</h3>
+                        <p class="dish__desc">Норі, рис, вугор.</p>
+                        <div class="dish__foot"><span class="dish__price">150 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== НІГІРІ ===== -->
+                <article class="dish" data-category="nigiri" data-order-trigger style="--c: #232323">
+                    <div class="dish__visual dish__visual--nigiri"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">нігірі</span>
+                        <h3 class="dish__name">Нігірі Вугор</h3>
+                        <p class="dish__desc">Рис, вугор, унагі, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">70 ₴</span><span class="dish__weight">45 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="nigiri" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--nigiri"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">нігірі</span>
+                        <h3 class="dish__name">Нігірі Лосось</h3>
+                        <p class="dish__desc">Рис, лосось.</p>
+                        <div class="dish__foot"><span class="dish__price">70 ₴</span><span class="dish__weight">45 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="nigiri" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--nigiri"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">нігірі</span>
+                        <h3 class="dish__name">Нігірі Креветка</h3>
+                        <p class="dish__desc">Рис, креветка.</p>
+                        <div class="dish__foot"><span class="dish__price">60 ₴</span><span class="dish__weight">45 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== БОУЛИ ===== -->
+                <article class="dish" data-category="bowls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">боул</span>
+                        <h3 class="dish__name">Сашимі Мікс</h3>
+                        <p class="dish__desc">Лосось, тунець, вугор, рис, авокадо, огірок, соуси спайсі та унагі, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">390 ₴</span><span class="dish__weight">340 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="bowls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">боул</span>
+                        <h3 class="dish__name">Боул з Креветками</h3>
+                        <p class="dish__desc">Креветка, авокадо, чука, перець, огірок, рис, сирні кульки, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">260 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="bowls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">боул</span>
+                        <h3 class="dish__name">Боул з Лососем</h3>
+                        <p class="dish__desc">Лосось, листя салату, кунжут, рис, яйце куряче, соєвий соус, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="bowls" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">тартар</span>
+                        <h3 class="dish__name">Тартар Вугор з Лососем</h3>
+                        <p class="dish__desc">Рис, авокадо, огірок, лосось, вугор, унагі, ікра масаго.</p>
+                        <div class="dish__foot"><span class="dish__price">250 ₴</span><span class="dish__weight">190 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="bowls" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">тартар</span>
+                        <h3 class="dish__name">Тартар з Креветкою</h3>
+                        <p class="dish__desc">Рис, авокадо, огірок, креветка, унагі, рисові кульки.</p>
+                        <div class="dish__foot"><span class="dish__price">200 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== ЛОКШИНА ТА ГАРЯЧІ СТРАВИ ===== -->
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">тепаньяки</span>
+                        <h3 class="dish__name">Тепаньяки з Куркою</h3>
+                        <p class="dish__desc">Курка, перець, цибуля, гриби, рис, яйце.</p>
+                        <div class="dish__foot"><span class="dish__price">175 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">удон</span>
+                        <h3 class="dish__name">Удон з Куркою</h3>
+                        <p class="dish__desc">Морква, перець, цибуля, локшина пшенична, гриби, курка.</p>
+                        <div class="dish__foot"><span class="dish__price">175 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">удон</span>
+                        <h3 class="dish__name">Удон з Морепродуктами</h3>
+                        <p class="dish__desc">Морква, перець, цибуля, локшина пшенична, кальмар, мідії.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">удон</span>
+                        <h3 class="dish__name">Удон Чікен Спайсі</h3>
+                        <p class="dish__desc">Морква, перець, цибуля, локшина пшенична, гриби, курка, спайсі кранч.</p>
+                        <div class="dish__foot"><span class="dish__price">190 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">фунчоза</span>
+                        <h3 class="dish__name">Фунчоза</h3>
+                        <p class="dish__desc">Морква, перець, цибуля, фунчоза, кальмар, восьминіг, креветка, тунець, чилі.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">350 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">харусаме</span>
+                        <h3 class="dish__name">Харусаме з Морепродуктами</h3>
+                        <p class="dish__desc">Морква, перець, цибуля, локшина рисова, кальмар, мідії.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">330 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">харусаме</span>
+                        <h3 class="dish__name">Харусаме з Куркою</h3>
+                        <p class="dish__desc">Морква, перець, цибуля, локшина рисова, гриби, курка.</p>
+                        <div class="dish__foot"><span class="dish__price">190 ₴</span><span class="dish__weight">330 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="noodles" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--bowl"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">якісоба</span>
+                        <h3 class="dish__name">Якісоба з Рисом</h3>
+                        <p class="dish__desc">Локшина удон, курка, перець, цибуля, рис, кунжут, унагі.</p>
+                        <div class="dish__foot"><span class="dish__price">190 ₴</span><span class="dish__weight">420 г</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== СУШІ ПОНЧИКИ ===== -->
+                <article class="dish" data-category="donuts" data-order-trigger style="--c: #fa8072">
+                    <div class="dish__visual dish__visual--donut"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">пончик</span>
+                        <h3 class="dish__name">Суші Пончик з Лососем</h3>
+                        <p class="dish__desc">Суші-пончик з ніжним лососем.</p>
+                        <div class="dish__foot"><span class="dish__price">135 ₴</span><span class="dish__weight">1 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="donuts" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--donut"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">пончик</span>
+                        <h3 class="dish__name">Суші Пончик з Креветкою</h3>
+                        <p class="dish__desc">Суші-пончик з тигровою креветкою.</p>
+                        <div class="dish__foot"><span class="dish__price">95 ₴</span><span class="dish__weight">1 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="donuts" data-order-trigger style="--c: #232323">
+                    <div class="dish__visual dish__visual--donut"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">пончик</span>
+                        <h3 class="dish__name">Суші Пончик з Вугрем</h3>
+                        <p class="dish__desc">Суші-пончик з копченим вугрем.</p>
+                        <div class="dish__foot"><span class="dish__price">120 ₴</span><span class="dish__weight">1 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="donuts" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual dish__visual--donut"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">пончик</span>
+                        <h3 class="dish__name">Суші Пончик з Чедером</h3>
+                        <p class="dish__desc">Суші-пончик з ніжним чедером.</p>
+                        <div class="dish__foot"><span class="dish__price">95 ₴</span><span class="dish__weight">1 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="donuts" data-order-trigger style="--c: #c8362d">
+                    <div class="dish__visual dish__visual--donut"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">пончик</span>
+                        <h3 class="dish__name">Суші Пончик з Тунцем</h3>
+                        <p class="dish__desc">Суші-пончик зі свіжим тунцем.</p>
+                        <div class="dish__foot"><span class="dish__price">105 ₴</span><span class="dish__weight">1 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="donuts" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--donut"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">фрі-пончик</span>
+                        <h3 class="dish__name">Фрі-Пончик з Куркою</h3>
+                        <p class="dish__desc">Хрусткий фрі-пончик з куркою.</p>
+                        <div class="dish__foot"><span class="dish__price">105 ₴</span><span class="dish__weight">1 шт</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===== СНЕКИ ===== -->
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #5b8c5a">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">салат</span>
+                        <h3 class="dish__name">Салат Чука</h3>
+                        <p class="dish__desc">Салат чука, горіховий соус, кунжут.</p>
+                        <div class="dish__foot"><span class="dish__price">120 ₴</span><span class="dish__weight">140 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сир</span>
+                        <h3 class="dish__name">Сир Брі</h3>
+                        <p class="dish__desc">Сир брі, обсмажений у паніровці.</p>
+                        <div class="dish__foot"><span class="dish__price">180 ₴</span><span class="dish__weight">7 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">креветки</span>
+                        <h3 class="dish__name">Креветки Темпура</h3>
+                        <p class="dish__desc">Тигрові креветки в темпурі.</p>
+                        <div class="dish__foot"><span class="dish__price">135 ₴</span><span class="dish__weight">7 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">курка</span>
+                        <h3 class="dish__name">Курячі Стріпси</h3>
+                        <p class="dish__desc">Соковиті курячі стріпси у хрусткій паніровці.</p>
+                        <div class="dish__foot"><span class="dish__price">110 ₴</span><span class="dish__weight">12 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">курка</span>
+                        <h3 class="dish__name">Нагетси</h3>
+                        <p class="dish__desc">Соковиті курячі нагетси у паніровці.</p>
+                        <div class="dish__foot"><span class="dish__price">120 ₴</span><span class="dish__weight">160 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">сир</span>
+                        <h3 class="dish__name">Сирні Стріпси</h3>
+                        <p class="dish__desc">Хрусткі стріпси з ніжним сиром усередині.</p>
+                        <div class="dish__foot"><span class="dish__price">150 ₴</span><span class="dish__weight">7 шт · 175 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #f1d27a">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">цибуля</span>
+                        <h3 class="dish__name">Цибулеві Кільця</h3>
+                        <p class="dish__desc">Цибуля у золотистій паніровці.</p>
+                        <div class="dish__foot"><span class="dish__price">90 ₴</span><span class="dish__weight">10 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">картопля</span>
+                        <h3 class="dish__name">Картопля Фрі</h3>
+                        <p class="dish__desc">Класична хрустка картопля фрі.</p>
+                        <div class="dish__foot"><span class="dish__price">80 ₴</span><span class="dish__weight">150 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">фрі</span>
+                        <h3 class="dish__name">Кульки Фрі</h3>
+                        <p class="dish__desc">Картопляні кульки з сирною серединкою.</p>
+                        <div class="dish__foot"><span class="dish__price">230 ₴</span><span class="dish__weight">4 шт</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">мікс</span>
+                        <h3 class="dish__name">Мікс Фрі</h3>
+                        <p class="dish__desc">Асорті картоплі фрі та кулькок.</p>
+                        <div class="dish__foot"><span class="dish__price">125 ₴</span><span class="dish__weight">200 г</span></div>
+                    </div>
+                </article>
+
+                <article class="dish" data-category="snacks" data-order-trigger style="--c: #e8a456">
+                    <div class="dish__visual dish__visual--snack"></div>
+                    <div class="dish__body">
+                        <span class="dish__tag">картопля</span>
+                        <h3 class="dish__name">Крокети Картопляні</h3>
+                        <p class="dish__desc">Класичні картопляні крокети у хрусткій паніровці.</p>
+                        <div class="dish__foot"><span class="dish__price">65 ₴</span><span class="dish__weight">150 г</span></div>
                     </div>
                 </article>
 
             </div>
+
+            <p class="menu__note">
+                Не знайшли улюбленої позиції? Маємо ще понад 20 страв — телефонуйте, домовимось.
+            </p>
         </div>
     </section>
 
@@ -303,7 +1205,7 @@
                         <li><b>−200 ₴</b><span>економія</span></li>
                     </ul>
                     <div class="sets__actions">
-                        <a href="tel:+380637764572" class="btn btn--primary">Замовити «Бушидо»</a>
+                        <button type="button" class="btn btn--primary" data-order-trigger>Замовити «Бушидо»</button>
                         <a href="#contact" class="btn btn--ghost">Самовивіз</a>
                     </div>
                 </div>
@@ -502,6 +1404,45 @@
     </section>
 
 </main>
+
+
+<!-- ===== ANIMATED ORDER MODAL ===== -->
+<div class="order-modal" id="order-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+    <div class="order-modal__backdrop" data-close></div>
+    <div class="order-modal__dialog">
+        <button type="button" class="order-modal__close" data-close aria-label="Закрити вікно">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12Z"/></svg>
+        </button>
+
+        <div class="order-modal__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 15.5c-1.3 0-2.6-.2-3.8-.6a1 1 0 0 0-1 .2l-2.2 2.2a15.1 15.1 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .2-1A11 11 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1A17 17 0 0 0 20 21a1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1Z"/></svg>
+        </div>
+
+        <span class="order-modal__kicker">ご注文 · Замовлення</span>
+        <h2 class="order-modal__title" id="order-modal-title">Зателефонуйте — приймемо замовлення</h2>
+        <p class="order-modal__text">
+            Приймаємо замовлення щодня з <b>11:00 до 21:00</b>. Самовивіз з вулиці Ярослава&nbsp;Мудрого,&nbsp;18 або доставка по місту.
+        </p>
+
+        <a href="tel:+380637764572" class="order-modal__cta">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 15.5c-1.3 0-2.6-.2-3.8-.6a1 1 0 0 0-1 .2l-2.2 2.2a15.1 15.1 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .2-1A11 11 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1A17 17 0 0 0 20 21a1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1Z"/></svg>
+            <span>063 776 45 72</span>
+        </a>
+
+        <div class="order-modal__hint">Натисніть — відкриється телефонна книга з готовим номером</div>
+
+        <div class="order-modal__hours">
+            <div>
+                <em>Адреса</em>
+                <b>вул. Ярослава Мудрого, 18</b>
+            </div>
+            <div>
+                <em>Працюємо</em>
+                <b>щодня 11:00 — 21:00</b>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <footer class="footer">

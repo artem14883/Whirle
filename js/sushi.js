@@ -26,6 +26,93 @@
     }
 
     /* ----------------------------------------------------------
+       Order modal — opens on any [data-order-trigger] click,
+       closes on backdrop / [data-close] / Escape
+       ---------------------------------------------------------- */
+    const orderModal = document.getElementById('order-modal');
+    if (orderModal) {
+        let lastFocused = null;
+
+        const openModal = (triggerEl) => {
+            lastFocused = triggerEl || document.activeElement;
+            orderModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+            // Focus the call button after the open animation kicks in
+            setTimeout(() => {
+                const cta = orderModal.querySelector('.order-modal__cta');
+                if (cta) cta.focus({ preventScroll: true });
+            }, 350);
+        };
+        const closeModal = () => {
+            orderModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+            if (lastFocused && typeof lastFocused.focus === 'function') {
+                lastFocused.focus({ preventScroll: true });
+            }
+        };
+
+        // Delegate clicks: any [data-order-trigger] anywhere on the page
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest('[data-order-trigger]');
+            if (trigger) {
+                // Don't intercept the explicit tel: link inside the modal itself
+                if (orderModal.contains(trigger)) return;
+                // Don't intercept if the user clicked the "Замовити" link nested elsewhere as <a href=tel>
+                const tel = e.target.closest('a[href^="tel:"]');
+                if (tel) return;
+                e.preventDefault();
+                openModal(trigger);
+                return;
+            }
+            // Close handlers
+            if (e.target.closest('[data-close]') && orderModal.contains(e.target)) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && orderModal.getAttribute('aria-hidden') === 'false') {
+                closeModal();
+            }
+        });
+
+        // After user taps the tel: link, close the modal so the dialer takes over
+        const telCta = orderModal.querySelector('.order-modal__cta');
+        if (telCta) {
+            telCta.addEventListener('click', () => {
+                setTimeout(closeModal, 250);
+            });
+        }
+    }
+
+    /* ----------------------------------------------------------
+       Menu category filter
+       ---------------------------------------------------------- */
+    const filterBtns = document.querySelectorAll('.menu__filter');
+    const menuGrid = document.getElementById('menu-grid');
+    if (filterBtns.length && menuGrid) {
+        const dishes = Array.from(menuGrid.querySelectorAll('.dish'));
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const f = btn.dataset.filter;
+                filterBtns.forEach(b => b.classList.toggle('is-active', b === btn));
+                dishes.forEach(d => {
+                    const match = (f === 'all') || (d.dataset.category === f);
+                    d.hidden = !match;
+                });
+                // Smooth scroll only if a category is selected (not "all")
+                if (f !== 'all') {
+                    const head = document.querySelector('.menu .section__head');
+                    if (head) {
+                        const y = head.getBoundingClientRect().top + window.scrollY - 80;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    }
+
+    /* ----------------------------------------------------------
        Reveal on scroll
        ---------------------------------------------------------- */
     const revealEls = document.querySelectorAll('.reveal');
