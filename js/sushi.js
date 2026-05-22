@@ -13,62 +13,77 @@
        category and name keywords. If the photo fails to load,
        the underlying coloured CSS visual stays visible.
        ---------------------------------------------------------- */
-    // All IDs verified to return 200 from the Unsplash CDN
+    // All URLs pulled from real Unsplash category searches so each
+    // photo actually depicts food of the matching kind.
     const U = id => `https://images.unsplash.com/photo-${id}?w=480&h=480&fit=crop&auto=format&q=70`;
     const PHOTO = {
-        setMixed:   U('1617196034796-73dfa7b1fd56'),
-        setDragon:  U('1607301406259-dfb186e15de8'),
-        setSalmon:  U('1579952363873-27f3bade9f55'),
-        setBlack:   U('1622866306950-81d17097d458'),
-        setGold:    U('1583623025817-d180a2221d0a'),
+        // Sushi platters — for SETS
+        setMixed:    U('1764183122524-974ccfb709fd'),
+        setDragon:   U('1774635804786-5ebb8f88dcdf'),
+        setSalmon:   U('1763647756796-af9230245bf8'),
+        setBlack:    U('1770164520620-a5612325635b'),
+        setGold:     U('1770966666358-37668256a29f'),
+        setExtra1:   U('1663334038419-71e6f82e333f'),
+        setExtra2:   U('1736885978380-8d7d9f7d7880'),
 
-        rollSalmon: U('1611143669185-af224c5e3252'),
-        rollPhilly: U('1559847844-5315695dadae'),
-        rollDragon: U('1607301406259-dfb186e15de8'),
-        rollTuna:   U('1565299585323-38d6b0865b47'),
-        rollSpicy:  U('1601050690597-df0568f70950'),
-        rollEel:    U('1591814468924-caf88d1232e1'),
-        rollShrimp: U('1559847844-5315695dadae'),
-        rollCheese: U('1563612116625-3012372fccce'),
-        rollCrab:   U('1496116218417-1a781b1c416c'),
-        rollGreen:  U('1564489563601-c53cfc451e93'),
-        spring:     U('1606471191009-63994c53433b'),
-        rolDog:     U('1568901346375-23c9450c58cd'),
+        // Sushi rolls — from sushi-roll search
+        rollSalmon:  U('1579871494447-9811cf80d66c'),
+        rollPhilly:  U('1628676825875-031ad212c31e'),
+        rollDragon:  U('1659549307726-799b5dc4e7b9'),
+        rollTuna:    U('1579584425555-c3ce17fd4351'),
+        rollSpicy:   U('1629793981691-feaf80ccb0da'),
+        rollEel:     U('1712725213572-443fe866a69a'),
+        rollShrimp:  U('1774635812959-bd5cbaa9e496'),
+        rollCheese:  U('1609158987097-ce23ef9da2fc'),
+        rollCrab:    U('1629296334504-9b072456cab5'),
+        rollGreen:   U('1599569955274-e46bfc0cef6a'),
+        spring:      U('1689821675939-8b7bea53b32b'),
+        rolDog:      U('1640057661469-2943a8ed9ad0'),
 
-        baked:      U('1559762717-99c81ac85459'),
-        tempura:    U('1581873372796-635b67ca2008'),
-        burger:     U('1568901346375-23c9450c58cd'),
-        palychka:   U('1581873372796-635b67ca2008'),
-        onigiri:    U('1565299624946-b28f40a0ae38'),
+        // Baked / hot rolls
+        baked:       U('1657895116431-cc32a587af2c'),
+        tempura:     U('1774635812959-bd5cbaa9e496'),
+        burger:      U('1675870792385-76389bc93f75'),
+        palychka:    U('1726824863411-615d1922e515'),
+        onigiri:     U('1615361200141-f45040f367be'),
 
-        makiSalmon: U('1553621042-f6e147245754'),
-        makiTuna:   U('1553621042-f6e147245754'),
-        makiVeg:    U('1553621042-f6e147245754'),
-        makiEel:    U('1564489563601-c53cfc451e93'),
+        // Maki rolls
+        makiSalmon:  U('1599569958048-2051d3f9a3e9'),
+        makiTuna:    U('1555341748-a9d443dc3c14'),
+        makiVeg:     U('1548907368-35e5ea8cbc8a'),
+        makiEel:     U('1558985212-92c2ff0b56e7'),
 
-        nigiriSalmon: U('1582450871972-ab5ca641643d'),
-        nigiriShrimp: U('1582450871972-ab5ca641643d'),
-        nigiriEel:    U('1582450871972-ab5ca641643d'),
+        // Nigiri
+        nigiriSalmon: U('1710945301326-d60727e4833a'),
+        nigiriShrimp: U('1562707786-7d2b807961c4'),
+        nigiriEel:    U('1637074930269-089fde202b57'),
 
-        bowlSalmon: U('1546069901-ba9599a7e63c'),
-        bowlShrimp: U('1614680376408-81e91ffe3db7'),
-        sashimi:    U('1567620832903-9fc6debc209f'),
-        tartar:     U('1546069901-ba9599a7e63c'),
+        // Poke / sashimi bowls
+        bowlSalmon:   U('1597958792579-bd3517df6399'),
+        bowlShrimp:   U('1604259597308-5321e8e4789c'),
+        sashimi:      U('1670816978291-a5cf23d87968'),
+        tartar:       U('1604259596863-57153177d40b'),
 
-        udon:       U('1623341214825-9f4f963727da'),
-        yakisoba:   U('1569718212165-3a8278d5f624'),
-        funchoza:   U('1572715376701-98568319fd0b'),
-        tepan:      U('1569718212165-3a8278d5f624'),
+        // Noodles
+        udon:         U('1700323861852-069271b695b3'),
+        yakisoba:     U('1599314250681-8e05113e0e1b'),
+        funchoza:     U('1632381151399-cf5877736890'),
+        tepan:        U('1700323467210-9f9019cdbfd4'),
 
-        donut:      U('1564631027894-5bdb17618445'),
+        // Sushi donuts
+        donut:        U('1640057661469-2943a8ed9ad0'),
 
-        chuka:      U('1606471191009-63994c53433b'),
-        cheese:     U('1564834724105-918b73d1b9e0'),
-        shrimpTemp: U('1581873372796-635b67ca2008'),
-        nuggets:    U('1623653387945-2fd25214f8fc'),
-        onion:      U('1518779578993-ec3579fee39f'),
-        fries:      U('1604152135912-04a022e23696'),
-        balls:      U('1604152135912-04a022e23696')
+        // Snacks
+        chuka:        U('1606471191009-63994c53433b'),
+        cheese:       U('1564834724105-918b73d1b9e0'),
+        shrimpTemp:   U('1759823338930-7996c1787c3b'),
+        nuggets:      U('1619881590738-a111d176d906'),
+        nuggets2:     U('1627662168223-7df99068099a'),
+        onion:        U('1639024471283-03518883512d'),
+        onion2:       U('1637231854063-dcc3b5c4e8aa'),
+        fries:        U('1630384060421-cb20d0e0649d'),
+        friesAlt:     U('1585109649139-366815a0d713'),
+        balls:        U('1541592106381-b31e9677c0e5')
     };
 
     function pickPhoto(dish) {
