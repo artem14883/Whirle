@@ -103,6 +103,11 @@
         '50 / 50': '5050-set.jpg',
         'Гриль Сет': 'gril-set.jpg',
         'Триніті': 'triniti-set.jpg',
+        'Сакура': 'sakura-set.jpg',
+        'Фірмовий': 'firmovyy-set.jpg',
+        'Сет Мікс': 'set-mix.jpg',
+        'Кіото': 'kioto-set.jpg',
+        'Лосось / Тунець Гриль': 'losos-tunets-gril.jpg',
 
         // Rolls
         'Філадельфія': 'philadelphia.jpg',
