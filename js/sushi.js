@@ -86,6 +86,130 @@
         balls:        U('1541592106381-b31e9677c0e5')
     };
 
+    // Map of exact dish names → local photo file (in img/dishes/).
+    // The user drops a photo here with the matching filename and the site
+    // automatically picks it up. If the file is missing, we fall back to
+    // the Unsplash stock photo.
+    const LOCAL = {
+        // Sets
+        'Дракон Сет': 'dragon-set.jpg',
+        'Преміум': 'premium-set.jpg',
+        'Філадельфія Сет': 'philadelphia-set.jpg',
+        'Блек': 'black-set.jpg',
+        'Сет Голд': 'gold-set.jpg',
+        'Лосось Сет': 'losos-set.jpg',
+        'Токіо': 'tokio-set.jpg',
+        'Фрі Сет': 'fri-set.jpg',
+        '50 / 50': '5050-set.jpg',
+        'Гриль Сет': 'gril-set.jpg',
+        'Триніті': 'triniti-set.jpg',
+
+        // Rolls
+        'Філадельфія': 'philadelphia.jpg',
+        'Філадельфія Класік': 'philadelphia-classic.jpg',
+        'Філадельфія Чедер': 'philadelphia-cheddar.jpg',
+        'Філадельфія Подвійний Сир': 'philadelphia-double-cheese.jpg',
+        'Фурі Рол': 'furi.jpg',
+        'Чедер Рол': 'cheddar-roll.jpg',
+        'Чорний Дракон': 'black-dragon.jpg',
+        'Червоний Дракон': 'red-dragon.jpg',
+        'Зелений Дракон': 'green-dragon.jpg',
+        'Тигровий Дракон': 'tiger-dragon.jpg',
+        'Чіз Рол': 'chiz-roll.jpg',
+        'Вугор з Лососем': 'vugor-losos.jpg',
+        'Грін Рол': 'grin-roll.jpg',
+        'Даба Лосось': 'daba-losos.jpg',
+        'Еббі Кранч': 'ebbi-kranch.jpg',
+        'Ебі Чедер': 'ebi-cheddar.jpg',
+        'Ебі Чіз': 'ebi-chiz.jpg',
+        'Каліфорнія': 'california.jpg',
+        'Кампай Сяке': 'kampay-syake.jpg',
+        'Кіро': 'kiro.jpg',
+        'Краб Рол': 'krab-roll.jpg',
+        'Магуро Тунець': 'maguro-tunets.jpg',
+        'Потрійна Креветка': 'potriyna-krevetka.jpg',
+        'Спайсі': 'spicy.jpg',
+        'Тобіко': 'tobiko.jpg',
+        'Рол-Дог з Куркою': 'rol-dog-kurka.jpg',
+        'Рол-Дог з Тунцем': 'rol-dog-tunets.jpg',
+        'Рол-Дог з Лососем': 'rol-dog-losos.jpg',
+        'Спрінг Сніжний': 'spring-snijniy.jpg',
+        'Спрінг з Креветкою': 'spring-krevetka.jpg',
+        'Спрінг з Лососем': 'spring-losos.jpg',
+        'Спрінг Туна-Лосось': 'spring-tuna-losos.jpg',
+
+        // Hot
+        'Запечений з Лососем': 'zapecheny-losos.jpg',
+        'Запечений з Тунцем': 'zapecheny-tunets.jpg',
+        'Панко': 'panko.jpg',
+        'Темпура': 'tempura.jpg',
+        'Тунець Хот': 'tunets-hot.jpg',
+        'Філадельфія Хот': 'philadelphia-hot.jpg',
+        'Чікен Чіз': 'chicken-chiz.jpg',
+        'Онігірі Фрі Креветка': 'onigiri-krevetka.jpg',
+        'Онігірі Фрі Лосось': 'onigiri-losos.jpg',
+        'Онігірі Фрі Тунець': 'onigiri-tunets.jpg',
+        'Паличка Фрі з Крабом': 'palychka-krab.jpg',
+        'Паличка Фрі з Лососем': 'palychka-losos.jpg',
+        'Паличка Фрі з Креветкою': 'palychka-krevetka.jpg',
+        'Бургер з Креветкою': 'burger-krevetka.jpg',
+        'Бургер з Тунцем': 'burger-tunets.jpg',
+        'Бургер з Лососем': 'burger-losos.jpg',
+
+        // Maki
+        'Макі Креветка': 'maki-krevetka.jpg',
+        'Макі Авокадо': 'maki-avokado.jpg',
+        'Макі Чука': 'maki-chuka.jpg',
+        'Макі Тунець': 'maki-tunets.jpg',
+        'Макі Огірок': 'maki-ogirok.jpg',
+        'Макі Лосось': 'maki-losos.jpg',
+        'Макі Копчений': 'maki-kopcheny.jpg',
+        'Макі Вугор': 'maki-vugor.jpg',
+
+        // Nigiri
+        'Нігірі Вугор': 'nigiri-vugor.jpg',
+        'Нігірі Лосось': 'nigiri-losos.jpg',
+        'Нігірі Креветка': 'nigiri-krevetka.jpg',
+
+        // Bowls & tartars
+        'Сашимі Мікс': 'sashimi-mix.jpg',
+        'Боул з Креветками': 'bowl-krevetka.jpg',
+        'Боул з Лососем': 'bowl-losos.jpg',
+        'Тартар Вугор з Лососем': 'tartar-vugor-losos.jpg',
+        'Тартар з Креветкою': 'tartar-krevetka.jpg',
+
+        // Noodles
+        'Тепаньяки з Куркою': 'tepanyaki-kurka.jpg',
+        'Удон з Куркою': 'udon-kurka.jpg',
+        'Удон з Морепродуктами': 'udon-moreprodukti.jpg',
+        'Удон Чікен Спайсі': 'udon-chicken-spicy.jpg',
+        'Фунчоза': 'funchoza.jpg',
+        'Харусаме з Морепродуктами': 'harusame-moreprodukti.jpg',
+        'Харусаме з Куркою': 'harusame-kurka.jpg',
+        'Якісоба з Рисом': 'yakisoba.jpg',
+
+        // Donuts
+        'Суші Пончик з Лососем': 'ponchik-losos.jpg',
+        'Суші Пончик з Креветкою': 'ponchik-krevetka.jpg',
+        'Суші Пончик з Вугрем': 'ponchik-vugor.jpg',
+        'Суші Пончик з Чедером': 'ponchik-cheddar.jpg',
+        'Суші Пончик з Тунцем': 'ponchik-tunets.jpg',
+        'Фрі-Пончик з Куркою': 'ponchik-kurka.jpg',
+
+        // Snacks
+        'Салат Чука': 'salat-chuka.jpg',
+        'Сир Брі': 'syr-bri.jpg',
+        'Креветки Темпура': 'krevetka-tempura.jpg',
+        'Курячі Стріпси': 'kuriachi-stripsi.jpg',
+        'Нагетси': 'nagetsi.jpg',
+        'Сирні Стріпси': 'syrni-stripsi.jpg',
+        'Цибулеві Кільця': 'cybulevi-kiltsia.jpg',
+        'Картопля Фрі': 'kartoplya-fri.jpg',
+        'Кульки Фрі': 'kulky-fri.jpg',
+        'Мікс Фрі': 'miks-fri.jpg',
+        'Крокети Картопляні': 'krokety.jpg'
+    };
+
     function pickPhoto(dish) {
         const name = (dish.querySelector('.dish__name')?.textContent || '').toLowerCase();
         const cat  = dish.dataset.category;
@@ -169,21 +293,36 @@
         return PHOTO.rollSalmon;
     }
 
-    function attachPhotos() {
-        document.querySelectorAll('.dish').forEach(dish => {
+    // HEAD-check the local file once (in parallel for all cards). If it
+    // returns 200 we use the local photo; otherwise fall back to Unsplash.
+    // This avoids the lazy-loading race where the 404 never fires error.
+    async function attachPhotos() {
+        const dishes = Array.from(document.querySelectorAll('.dish'));
+        await Promise.all(dishes.map(async dish => {
             const visual = dish.querySelector('.dish__visual');
             if (!visual || visual.querySelector('img')) return;
-            const url = pickPhoto(dish);
+
+            const exactName = dish.querySelector('.dish__name')?.textContent?.trim() || '';
+            let url = null;
+
+            if (LOCAL[exactName]) {
+                const localUrl = `img/dishes/${LOCAL[exactName]}`;
+                try {
+                    const r = await fetch(localUrl, { method: 'HEAD' });
+                    if (r.ok) url = localUrl;
+                } catch { /* network error → fall through to stock */ }
+            }
+            if (!url) url = pickPhoto(dish);
             if (!url) return;
+
             const img = document.createElement('img');
             img.src = url;
             img.alt = '';
             img.loading = 'lazy';
             img.decoding = 'async';
-            // If the photo can't load, drop the <img> so the coloured fallback remains visible
             img.addEventListener('error', () => img.remove(), { once: true });
             visual.appendChild(img);
-        });
+        }));
     }
     attachPhotos();
 
