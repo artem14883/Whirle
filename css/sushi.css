@@ -723,13 +723,86 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 
 .sets__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
-/* 3D plate */
+/* Sets photo (replaces the old CSS plate) */
 .sets__visual {
     position: relative;
     aspect-ratio: 1;
     width: 100%;
     perspective: 900px;
 }
+.sets__photo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow:
+        0 40px 80px -20px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    transform: translateY(0);
+    animation: setsFloat 6s ease-in-out infinite;
+}
+.sets__photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 100%, transparent 50%, rgba(0,0,0,0.5) 100%),
+        linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+}
+.sets__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 6s var(--ease), filter .5s var(--ease);
+    filter: saturate(1.08) contrast(1.04);
+}
+.sets__photo:hover img {
+    transform: scale(1.06);
+    filter: saturate(1.18) contrast(1.08);
+}
+.sets__photo-badge {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 8px;
+    border-radius: 999px;
+    background: rgba(10, 10, 12, 0.65);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 1;
+}
+.sets__photo-mark {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(140deg, var(--red) 0%, #7d0014 100%);
+    color: #fff;
+}
+.sets__photo-text {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+@keyframes setsFloat {
+    0%, 100% { transform: translateY(0) rotate(-0.4deg); }
+    50%      { transform: translateY(-10px) rotate(0.4deg); }
+}
+
+/* Old CSS plate (kept for backwards compatibility / fallback) */
 .sets__plate-3d {
     position: absolute;
     inset: 0;
@@ -861,16 +934,16 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     line-height: 1.5;
     color: var(--ink);
     margin-bottom: 20px;
-    position: relative;
-    padding-left: 18px;
 }
 .about__quote::before {
     content: "「";
-    position: absolute;
-    left: -4px; top: -6px;
-    font-size: 42px;
+    display: block;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 36px;
     color: var(--gold);
     opacity: 0.5;
+    line-height: 0.8;
+    margin-bottom: 4px;
 }
 .about__quote-author { display: flex; align-items: center; gap: 12px; }
 .about__avatar {
