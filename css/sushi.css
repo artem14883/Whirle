@@ -726,38 +726,38 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 /* Sets photo (replaces the old CSS plate) */
 .sets__visual {
     position: relative;
-    aspect-ratio: 1;
     width: 100%;
     perspective: 900px;
 }
 .sets__photo {
     position: relative;
     width: 100%;
-    height: 100%;
-    border-radius: 28px;
+    aspect-ratio: 1178 / 461; /* matches bushido-set.jpg exactly — no cropping */
+    border-radius: 24px;
     overflow: hidden;
     box-shadow:
         0 40px 80px -20px rgba(0, 0, 0, 0.75),
         0 0 0 1px rgba(255, 255, 255, 0.06) inset;
     transform: translateY(0);
     animation: setsFloat 6s ease-in-out infinite;
+    background: #000;
 }
 .sets__photo::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 50% 100%, transparent 50%, rgba(0,0,0,0.5) 100%),
-        linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.35) 100%);
+        linear-gradient(180deg, transparent 65%, rgba(0,0,0,0.25) 100%);
     pointer-events: none;
 }
 .sets__photo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* show the whole platter, no edge cropping */
     display: block;
     transition: transform 6s var(--ease), filter .5s var(--ease);
-    filter: saturate(1.08) contrast(1.04);
+    filter: saturate(1.10) contrast(1.05);
+    image-rendering: -webkit-optimize-contrast;
 }
 .sets__photo:hover img {
     transform: scale(1.06);
@@ -931,19 +931,18 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 .about__quote {
     font-family: 'Noto Serif JP', serif;
     font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--ink);
     margin-bottom: 20px;
 }
 .about__quote::before {
     content: "「";
-    display: block;
     font-family: 'Noto Serif JP', serif;
-    font-size: 36px;
+    font-size: 0.95em;
     color: var(--gold);
-    opacity: 0.5;
-    line-height: 0.8;
-    margin-bottom: 4px;
+    opacity: 0.65;
+    margin-right: 4px;
+    vertical-align: baseline;
 }
 .about__quote-author { display: flex; align-items: center; gap: 12px; }
 .about__avatar {
