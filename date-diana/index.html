@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Для Діанки 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Comfortaa:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff5c8a;
+    --rose:#ff8fb1;
+    --gold:#ffd479;
+    --ink:#3a1530;
+    --glass:rgba(255,255,255,.14);
+    --glass-brd:rgba(255,255,255,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Comfortaa',system-ui,sans-serif;
+    color:#fff;
+    overflow:hidden;
+    background:linear-gradient(-45deg,#7b2d6b,#b13b7e,#e9588f,#ff8fb1,#a85bd6);
+    background-size:400% 400%;
+    animation:bgmove 18s ease infinite;
+  }
+  @keyframes bgmove{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+
+  #fx{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+  .stage{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;padding:20px}
+
+  .screen{
+    position:absolute;width:100%;max-width:560px;
+    display:none;flex-direction:column;align-items:center;text-align:center;gap:22px;
+    opacity:0;transform:translateY(28px) scale(.96);
+    transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1);
+  }
+  .screen.active{display:flex;opacity:1;transform:none}
+
+  .glass{
+    background:var(--glass);
+    border:1px solid var(--glass-brd);
+    border-radius:28px;
+    padding:34px 28px;
+    width:100%;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 18px 50px rgba(60,10,50,.35);
+  }
+
+  h1{font-family:'Comfortaa';font-weight:700;font-size:clamp(26px,7vw,42px);line-height:1.15;text-shadow:0 4px 22px rgba(80,0,60,.45)}
+  .script{font-family:'Caveat';font-weight:700;color:var(--gold);font-size:clamp(34px,10vw,64px);line-height:1;text-shadow:0 4px 20px rgba(120,40,0,.35)}
+  p.sub{font-family:'Montserrat';font-weight:400;font-size:clamp(14px,3.6vw,17px);opacity:.92;line-height:1.6}
+  .typed{min-height:1.4em}
+  .caret{display:inline-block;width:2px;background:var(--gold);margin-left:2px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* Buttons */
+  .btn{
+    font-family:'Comfortaa';font-weight:700;font-size:18px;cursor:pointer;border:none;
+    padding:16px 34px;border-radius:50px;color:#fff;
+    background:linear-gradient(135deg,#ff5c8a,#ff3d6e);
+    box-shadow:0 10px 26px rgba(255,60,110,.5);
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 16px 34px rgba(255,60,110,.6)}
+  .btn:active{transform:scale(.97)}
+  .btn.gold{background:linear-gradient(135deg,#ffd479,#ffb43d);box-shadow:0 10px 26px rgba(255,170,40,.5);color:#5a2b00}
+  .btn.ghost{background:rgba(255,255,255,.16);box-shadow:none;border:1px solid var(--glass-brd)}
+
+  .row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
+
+  #noBtn{position:relative;transition:transform .15s ease}
+
+  /* Option cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+  @media(max-width:430px){.cards{grid-template-columns:1fr}}
+  .card{
+    text-align:left;cursor:pointer;border-radius:20px;padding:18px;
+    background:rgba(255,255,255,.12);border:1.5px solid var(--glass-brd);
+    transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s;
+    position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-4px);background:rgba(255,255,255,.2)}
+  .card.sel{border-color:var(--gold);background:rgba(255,212,121,.22);box-shadow:0 0 0 3px rgba(255,212,121,.35)}
+  .card .ttl{font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px}
+  .card .ds{font-family:'Montserrat';font-size:12.5px;opacity:.85;margin-top:6px;line-height:1.45}
+  .card a{color:var(--gold);font-family:'Montserrat';font-size:12px;text-decoration:underline}
+  .tag{display:inline-block;font-family:'Montserrat';font-size:10px;font-weight:600;padding:3px 8px;border-radius:30px;background:rgba(255,212,121,.3);color:#fff;margin-top:8px}
+
+  input[type=text]{
+    width:100%;margin-top:10px;font-family:'Montserrat';font-size:14px;color:#fff;
+    background:rgba(0,0,0,.18);border:1px solid var(--glass-brd);border-radius:12px;padding:11px 14px;
+  }
+  input[type=text]::placeholder{color:rgba(255,255,255,.6)}
+  input[type=text]:focus{outline:none;border-color:var(--gold)}
+
+  /* time grid */
+  .times{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;max-height:46vh;overflow-y:auto;padding:4px}
+  @media(max-width:430px){.times{grid-template-columns:repeat(3,1fr)}}
+  .slot{
+    font-family:'Montserrat';font-weight:600;font-size:14px;cursor:pointer;text-align:center;
+    padding:11px 4px;border-radius:13px;background:rgba(255,255,255,.12);border:1.5px solid var(--glass-brd);
+    transition:transform .15s,background .15s,border-color .15s;
+  }
+  .slot:hover{transform:scale(1.06);background:rgba(255,255,255,.22)}
+  .slot.sel{border-color:var(--gold);background:rgba(255,212,121,.28);box-shadow:0 0 0 3px rgba(255,212,121,.3)}
+  .times::-webkit-scrollbar{width:6px}
+  .times::-webkit-scrollbar-thumb{background:rgba(255,255,255,.4);border-radius:10px}
+
+  .step{font-family:'Montserrat';font-size:12px;letter-spacing:2px;opacity:.7;text-transform:uppercase}
+  .err{color:#fff;background:rgba(255,60,60,.35);padding:8px 14px;border-radius:30px;font-family:'Montserrat';font-size:12.5px;display:none}
+  .err.show{display:inline-block}
+
+  .summary{font-family:'Montserrat';font-size:14px;line-height:1.9;opacity:.95}
+  .summary b{font-family:'Comfortaa'}
+  .muteBtn{position:fixed;top:14px;right:14px;z-index:5;width:42px;height:42px;border-radius:50%;border:1px solid var(--glass-brd);background:var(--glass);color:#fff;font-size:18px;cursor:pointer;backdrop-filter:blur(8px)}
+  .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<div class="stage">
+
+  <!-- 1. INTRO -->
+  <section class="screen" id="s1">
+    <div class="glass">
+      <p class="step">особисте запрошення</p>
+      <div style="height:14px"></div>
+      <h1>Привіт, <span class="script">Діанко</span></h1>
+      <div style="height:18px"></div>
+      <p class="sub typed" id="introType"></p>
+      <div style="height:26px"></div>
+      <button class="btn" onclick="go(1)">Мені цікаво ✨</button>
+    </div>
+  </section>
+
+  <!-- 2. THE QUESTION -->
+  <section class="screen" id="s2">
+    <div class="glass">
+      <h1>Ти підеш зі мною<br>на побачення? 💗</h1>
+      <div style="height:30px"></div>
+      <div class="row">
+        <button class="btn gold" id="yesBtn" onclick="go(2)">Так! 🥰</button>
+        <button class="btn ghost" id="noBtn">Ні</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. PLACE -->
+  <section class="screen" id="s3">
+    <div class="glass">
+      <p class="step">крок 1 з 3</p>
+      <div style="height:10px"></div>
+      <h1>Куди підемо? 🌆</h1>
+      <p class="sub">Обирай, пані — твоє слово вирішальне</p>
+      <div style="height:18px"></div>
+      <div class="cards" id="placeCards">
+        <div class="card" data-place="Метро «Університет»" onclick="pickPlace(this)">
+          <div class="ttl">🚇 Метро «Університет»</div>
+          <div class="ds">Зустрінемось тут, а далі розберемось по місцю разом</div>
+        </div>
+        <div class="card" data-place="Passenger Gastro Bar" onclick="pickPlace(this)">
+          <div class="ttl">🍸 Passenger Gastro Bar</div>
+          <div class="ds">Гіпервайбове місце з особливою атмосферою</div>
+          <a href="https://maps.app.goo.gl/nAmdVTPU9Nawh1P58" target="_blank" rel="noopener" onclick="event.stopPropagation()">показати на мапі ↗</a>
+          <div><span class="tag">🔥 гіпервайб</span></div>
+        </div>
+        <div class="card" data-place="NAMELAKA" onclick="pickPlace(this)">
+          <div class="ttl">🍰 NAMELAKA</div>
+          <div class="ds">Ще там не був — пропоную відкрити це місце вдвох</div>
+          <div><span class="tag">✨ нова пригода</span></div>
+        </div>
+        <div class="card" data-place="__custom__" onclick="pickPlace(this)">
+          <div class="ttl">💫 Ваш варіант, пані</div>
+          <div class="ds">Якщо в тебе є місце мрії — впиши його</div>
+          <input type="text" id="customPlace" placeholder="Напиши, куди хочеш ти…" onclick="event.stopPropagation()" oninput="onCustom()">
+        </div>
+      </div>
+      <div style="height:18px"></div>
+      <span class="err" id="placeErr">Обери, будь ласка, місце 🙈</span>
+      <div class="row"><button class="btn" onclick="toTime()">Далі →</button></div>
+    </div>
+  </section>
+
+  <!-- 4. TIME -->
+  <section class="screen" id="s4">
+    <div class="glass">
+      <p class="step">крок 2 з 3</p>
+      <div style="height:10px"></div>
+      <h1>О котрій зустрінемось? 🕐</h1>
+      <p class="sub">Обери час, який тобі зручний</p>
+      <div style="height:16px"></div>
+      <div class="times" id="times"></div>
+      <div style="height:16px"></div>
+      <span class="err" id="timeErr">Обери, будь ласка, час 🙈</span>
+      <div class="row">
+        <button class="btn ghost" onclick="show('s3')">← Назад</button>
+        <button class="btn" onclick="toFlowers()">Далі →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FLOWERS -->
+  <section class="screen" id="s5">
+    <div class="glass">
+      <p class="step">крок 3 з 3</p>
+      <div style="height:10px"></div>
+      <h1>А квіти візьмемо? 🌷</h1>
+      <p class="sub">Хочу прийти не з порожніми руками</p>
+      <div style="height:22px"></div>
+      <div class="cards">
+        <div class="card" data-flowers="Так, обожнюю квіти 🌹" onclick="pickFlowers(this)">
+          <div class="ttl">🌹 Так, обожнюю!</div>
+          <div class="ds">Тоді тебе чекає маленький букет</div>
+        </div>
+        <div class="card" data-flowers="Можна і без квітів 😊" onclick="pickFlowers(this)">
+          <div class="ttl">😊 Можна й без них</div>
+          <div class="ds">Головне — компанія</div>
+        </div>
+        <div class="card" data-flowers="Здивуй мене 🎁" onclick="pickFlowers(this)">
+          <div class="ttl">🎁 Здивуй мене</div>
+          <div class="ds">Залишаю це на твій смак</div>
+        </div>
+        <div class="card" data-flowers="__customf__" onclick="pickFlowers(this)">
+          <div class="ttl">💐 Свій варіант</div>
+          <div class="ds">Може, улюблені квіти?</div>
+          <input type="text" id="customFlowers" placeholder="Напиши, які саме…" onclick="event.stopPropagation()" oninput="onCustomF()">
+        </div>
+      </div>
+      <div style="height:16px"></div>
+      <span class="err" id="flowErr">Обери, будь ласка, варіант 🙈</span>
+      <div class="row">
+        <button class="btn ghost" onclick="show('s4')">← Назад</button>
+        <button class="btn gold" onclick="finish()" id="finishBtn">Готово 💞</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FINAL -->
+  <section class="screen" id="s6">
+    <div class="glass">
+      <div class="script" style="font-size:clamp(40px,12vw,72px)">Ура! 🎉</div>
+      <div style="height:10px"></div>
+      <h1>Це побачення відбудеться 💖</h1>
+      <div style="height:18px"></div>
+      <div class="summary" id="summary"></div>
+      <div style="height:18px"></div>
+      <p class="sub" id="sendStatus"></p>
+      <div style="height:10px"></div>
+      <p class="sub">До зустрічі, Діанко 🥰<br><span class="script" style="font-size:34px">— Артем</span></p>
+    </div>
+  </section>
+
+</div>
+
+<button class="muteBtn" id="muteBtn" title="Звук" onclick="toggleMute()">🔊</button>
+
+<script>
+/* ============== CONFIG ============== */
+/* 1) Зайди на https://web3forms.com  → встав свою пошту ripaartem25@gmail.com
+   2) Отримай Access Key на пошту
+   3) Встав його нижче замість ВСТАВ_СЮДИ_КЛЮЧ                              */
+const WEB3FORMS_KEY = "3de979c6-d92b-4cca-81f4-7770a88c0a03";
+const NOTIFY_EMAIL  = "ripaartem25@gmail.com";
+
+/* ============== STATE ============== */
+const data = { place:null, time:null, flowers:null };
+
+/* ============== SCREENS ============== */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function go(n){
+  if(n===0){ show('s1'); }
+  if(n===1){ show('s2'); }
+  if(n===2){ burstHearts(); show('s3'); }
+}
+
+/* ---- intro typing ---- */
+const introText = "Я тут дещо для тебе підготував… Натисни і дізнайся 💌";
+function typeIntro(){
+  const el = document.getElementById('introType');
+  el.innerHTML = ''; let i=0;
+  const caret = document.createElement('span'); caret.className='caret'; caret.innerHTML='&nbsp;';
+  el.appendChild(caret);
+  const t = setInterval(()=>{
+    if(i<introText.length){ caret.insertAdjacentText('beforebegin', introText[i++]); }
+    else clearInterval(t);
+  },45);
+}
+
+/* ---- runaway NO button ---- */
+const noTexts = ["Ні","А точно ні?","Подумай ще 🥺","Ну будь ласка","Спробуй спіймати 😏","Я не здамся!","Кнопка втомилась…"];
+let noIdx=0;
+const noBtn=document.getElementById('noBtn');
+function moveNo(){
+  const pad=20, w=window.innerWidth, h=window.innerHeight;
+  const bw=noBtn.offsetWidth, bh=noBtn.offsetHeight;
+  const x=Math.random()*(w-bw-pad*2)+pad - w/2;
+  const y=Math.random()*(h-bh-pad*2)+pad - h/2;
+  noBtn.style.position='fixed';
+  noBtn.style.left='50%'; noBtn.style.top='50%';
+  noBtn.style.transform=`translate(${x}px,${y}px) scale(${Math.max(.6,1-noIdx*.06)})`;
+  noIdx=Math.min(noIdx+1,noTexts.length-1);
+  noBtn.textContent=noTexts[noIdx];
+  const yes=document.getElementById('yesBtn');
+  yes.style.transform=`scale(${1+noIdx*0.05})`;
+}
+noBtn.addEventListener('mouseenter',moveNo);
+noBtn.addEventListener('click',moveNo);
+noBtn.addEventListener('touchstart',function(e){e.preventDefault();moveNo();},{passive:false});
+
+/* ---- place ---- */
+function pickPlace(card){
+  document.querySelectorAll('#placeCards .card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const v=card.dataset.place;
+  data.place = (v==='__custom__') ? (document.getElementById('customPlace').value.trim()||'__custom__') : v;
+  document.getElementById('placeErr').classList.remove('show');
+  ping();
+}
+function onCustom(){
+  const sel=document.querySelector('#placeCards .card.sel');
+  const cust=document.getElementById('customPlace').closest('.card');
+  if(sel!==cust){ document.querySelectorAll('#placeCards .card').forEach(c=>c.classList.remove('sel')); cust.classList.add('sel'); }
+  data.place = document.getElementById('customPlace').value.trim() || '__custom__';
+}
+function toTime(){
+  if(!data.place || data.place==='__custom__'){ document.getElementById('placeErr').classList.add('show'); return; }
+  buildTimes(); show('s4');
+}
+
+/* ---- time ---- */
+function buildTimes(){
+  const box=document.getElementById('times');
+  if(box.childElementCount) return;
+  for(let m=13*60; m<=18*60; m+=15){
+    const hh=String(Math.floor(m/60)).padStart(2,'0');
+    const mm=String(m%60).padStart(2,'0');
+    const t=`${hh}:${mm}`;
+    const d=document.createElement('div');
+    d.className='slot'; d.textContent=t;
+    d.onclick=()=>{ document.querySelectorAll('.slot').forEach(s=>s.classList.remove('sel')); d.classList.add('sel'); data.time=t; document.getElementById('timeErr').classList.remove('show'); ping(); };
+    box.appendChild(d);
+  }
+}
+function toFlowers(){
+  if(!data.time){ document.getElementById('timeErr').classList.add('show'); return; }
+  show('s5');
+}
+
+/* ---- flowers ---- */
+function pickFlowers(card){
+  document.querySelectorAll('#s5 .card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const v=card.dataset.flowers;
+  data.flowers=(v==='__customf__')?(document.getElementById('customFlowers').value.trim()||'__customf__'):v;
+  document.getElementById('flowErr').classList.remove('show'); ping();
+}
+function onCustomF(){
+  const cust=document.getElementById('customFlowers').closest('.card');
+  document.querySelectorAll('#s5 .card').forEach(c=>c.classList.remove('sel')); cust.classList.add('sel');
+  data.flowers=document.getElementById('customFlowers').value.trim()||'__customf__';
+}
+
+/* ---- finish + send ---- */
+async function finish(){
+  if(!data.flowers || data.flowers==='__customf__'){ document.getElementById('flowErr').classList.add('show'); return; }
+  document.getElementById('summary').innerHTML =
+    `📍 <b>Місце:</b> ${esc(data.place)}<br>🕐 <b>Час:</b> ${esc(data.time)}<br>🌷 <b>Квіти:</b> ${esc(data.flowers)}`;
+  show('s6');
+  victory();
+  sendEmail();
+}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+async function sendEmail(){
+  const st=document.getElementById('sendStatus');
+  if(!WEB3FORMS_KEY || WEB3FORMS_KEY==="ВСТАВ_СЮДИ_КЛЮЧ"){
+    st.innerHTML='⚠️ <span style="opacity:.8">(демо-режим: додай Web3Forms-ключ, щоб відповідь прийшла на пошту)</span>';
+    return;
+  }
+  st.innerHTML='<span class="spin"></span> Надсилаю відповідь Артему…';
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+      body:JSON.stringify({
+        access_key:WEB3FORMS_KEY,
+        subject:'💖 Діана відповіла на запрошення!',
+        from_name:'Запрошення для Діани',
+        email:NOTIFY_EMAIL,
+        'Місце':data.place,'Час':data.time,'Квіти':data.flowers
+      })
+    });
+    const j=await res.json();
+    st.innerHTML = j.success ? '✅ Відповідь надіслано Артему 💌' : '⚠️ Не вдалось надіслати, але Артем уже в курсі 😉';
+  }catch(e){ st.innerHTML='⚠️ Інтернет підвів, але я все одно щасливий 🥰'; }
+}
+
+/* ============== AUDIO (Web Audio fanfare) ============== */
+let muted=false, actx=null;
+function ensureAudio(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } if(actx&&actx.state==='suspended') actx.resume(); }
+document.body.addEventListener('pointerdown',ensureAudio,{once:true});
+function toggleMute(){ muted=!muted; document.getElementById('muteBtn').textContent=muted?'🔇':'🔊'; }
+function tone(freq,start,dur,type='triangle',vol=.22){
+  if(!actx||muted)return;
+  const o=actx.createOscillator(),g=actx.createGain();
+  o.type=type;o.frequency.value=freq;o.connect(g);g.connect(actx.destination);
+  const t=actx.currentTime+start;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.03);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.start(t);o.stop(t+dur+.05);
+}
+function ping(){ ensureAudio(); tone(880,0,.12,'sine',.12); }
+function fanfare(){
+  ensureAudio();
+  const n=[523.25,659.25,783.99,1046.5]; // C E G C major
+  n.forEach((f,i)=>tone(f,i*.13,.5,'triangle',.25));
+  tone(1318.5,.55,.8,'sine',.2);
+  tone(1567.98,.7,.9,'triangle',.18);
+}
+
+/* ============== CANVAS FX (particles + hearts + confetti) ============== */
+const cv=document.getElementById('fx'),cx=cv.getContext('2d');
+let W,H; function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;} resize(); addEventListener('resize',resize);
+const mouse={x:innerWidth/2,y:innerHeight/2};
+addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+
+const floaters=[]; // ambient hearts/sparkles
+for(let i=0;i<26;i++) floaters.push(newFloater(true));
+function newFloater(init){
+  return {x:Math.random()*innerWidth,y:init?Math.random()*innerHeight:innerHeight+20,
+    s:6+Math.random()*16,sp:.3+Math.random()*.8,sw:Math.random()*2-1,
+    a:.2+Math.random()*.5,heart:Math.random()<.5,hue:Math.random()<.5?'#ffd479':'#ffd0e0',ph:Math.random()*6.28};
+}
+function drawHeart(x,y,s,col,a){
+  cx.save();cx.globalAlpha=a;cx.fillStyle=col;cx.translate(x,y);cx.scale(s/16,s/16);
+  cx.beginPath();cx.moveTo(0,4);
+  cx.bezierCurveTo(0,-2,-8,-2,-8,4);cx.bezierCurveTo(-8,9,-2,12,0,16);
+  cx.bezierCurveTo(2,12,8,9,8,4);cx.bezierCurveTo(8,-2,0,-2,0,4);
+  cx.fill();cx.restore();
+}
+const confetti=[]; const hearts=[];
+function burstHearts(){ for(let i=0;i<28;i++) hearts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*9,vy:(Math.random()-.5)*9-3,s:10+Math.random()*16,life:1,col:Math.random()<.5?'#ff5c8a':'#ffd479'}); }
+function victory(){
+  fanfare();
+  const cols=['#ff5c8a','#ffd479','#ff8fb1','#a85bd6','#7be0c3','#fff'];
+  for(let i=0;i<220;i++) confetti.push({x:Math.random()*W,y:-20-Math.random()*H*.4,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,s:5+Math.random()*7,rot:Math.random()*6.28,vr:(Math.random()-.5)*.3,col:cols[i%cols.length]});
+  let n=0; const iv=setInterval(()=>{ burstHearts(); if(++n>4) clearInterval(iv); },300);
+}
+function loop(){
+  cx.clearRect(0,0,W,H);
+  // ambient floaters with subtle mouse parallax
+  floaters.forEach(f=>{
+    f.y-=f.sp; f.x+=Math.sin(f.ph+=0.01)*0.5+f.sw*0.2;
+    const dx=(mouse.x-W/2)/W*f.s*1.5;
+    if(f.y<-30){Object.assign(f,newFloater(false));}
+    if(f.heart) drawHeart(f.x+dx,f.y,f.s,f.hue,f.a);
+    else{cx.save();cx.globalAlpha=f.a;cx.fillStyle=f.hue;cx.beginPath();cx.arc(f.x+dx,f.y,f.s/4,0,6.28);cx.fill();cx.restore();}
+  });
+  // confetti
+  for(let i=confetti.length-1;i>=0;i--){const c=confetti[i];c.x+=c.vx;c.y+=c.vy;c.vy+=0.04;c.rot+=c.vr;
+    cx.save();cx.translate(c.x,c.y);cx.rotate(c.rot);cx.fillStyle=c.col;cx.fillRect(-c.s/2,-c.s/2,c.s,c.s*.6);cx.restore();
+    if(c.y>H+30)confetti.splice(i,1);}
+  // burst hearts
+  for(let i=hearts.length-1;i>=0;i--){const h=hearts[i];h.x+=h.vx;h.y+=h.vy;h.vy+=0.12;h.life-=0.012;
+    drawHeart(h.x,h.y,h.s,h.col,Math.max(0,h.life));
+    if(h.life<=0)hearts.splice(i,1);}
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ============== INIT ============== */
+show('s1'); typeIntro();
+</script>
+</body>
+</html>
