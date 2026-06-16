@@ -298,36 +298,40 @@
         return PHOTO.rollSalmon;
     }
 
-    // HEAD-check the local file once (in parallel for all cards). If it
-    // returns 200 we use the local photo; otherwise fall back to Unsplash.
-    // This avoids the lazy-loading race where the 404 never fires error.
-    async function attachPhotos() {
-        const dishes = Array.from(document.querySelectorAll('.dish'));
-        await Promise.all(dishes.map(async dish => {
+    // Photo attachment — synchronous, no preflight HEAD requests.
+    // If the dish has a local file mapped (we know it does because the
+    // owner uploaded the full set), use it directly. Browser's native
+    // lazy loading defers requests until the card scrolls near. If a
+    // local file does fail to load (404), the error handler falls back
+    // to the Unsplash stock photo, and if that fails too, removes <img>
+    // so the coloured CSS fallback stays visible.
+    function attachPhotos() {
+        document.querySelectorAll('.dish').forEach(dish => {
             const visual = dish.querySelector('.dish__visual');
             if (!visual || visual.querySelector('img')) return;
-
             const exactName = dish.querySelector('.dish__name')?.textContent?.trim() || '';
-            let url = null;
 
-            if (LOCAL[exactName]) {
-                const localUrl = `img/dishes/${LOCAL[exactName]}`;
-                try {
-                    const r = await fetch(localUrl, { method: 'HEAD' });
-                    if (r.ok) url = localUrl;
-                } catch { /* network error → fall through to stock */ }
-            }
-            if (!url) url = pickPhoto(dish);
-            if (!url) return;
+            const localUrl = LOCAL[exactName] ? `img/dishes/${LOCAL[exactName]}` : null;
+            const stockUrl = pickPhoto(dish);
+            const primary = localUrl || stockUrl;
+            if (!primary) return;
 
             const img = document.createElement('img');
-            img.src = url;
+            img.src = primary;
             img.alt = '';
             img.loading = 'lazy';
             img.decoding = 'async';
-            img.addEventListener('error', () => img.remove(), { once: true });
+            let triedFallback = false;
+            img.addEventListener('error', () => {
+                if (!triedFallback && localUrl && stockUrl && img.src.endsWith(localUrl)) {
+                    triedFallback = true;
+                    img.src = stockUrl;
+                } else {
+                    img.remove();
+                }
+            });
             visual.appendChild(img);
-        }));
+        });
     }
     attachPhotos();
 
@@ -458,8 +462,8 @@
        Sakura petals (DOM particles)
        ---------------------------------------------------------- */
     const sakuraLayer = document.getElementById('sakura-layer');
-    if (sakuraLayer && !prefersReduced) {
-        const count = window.innerWidth < 700 ? 8 : 16;
+    if (sakuraLayer && !prefersReduced && window.innerWidth >= 700) {
+        const count = 10;
         for (let i = 0; i < count; i++) {
             const p = document.createElement('span');
             p.className = 'sakura';
@@ -497,6 +501,76 @@
     }
 
     /* ----------------------------------------------------------
+       3D parallax tilt for the Бушидо featured photo
+       ---------------------------------------------------------- */
+    if (!prefersReduced && window.matchMedia('(hover: hover)').matches) {
+        document.querySelectorAll('[data-sets-tilt]').forEach(el => {
+            const maxTilt = 8; // degrees
+            el.addEventListener('mousemove', (e) => {
+                const r = el.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width;
+                const y = (e.clientY - r.top) / r.height;
+                const rx = (0.5 - y) * maxTilt;
+                const ry = (x - 0.5) * maxTilt;
+                el.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+                el.style.setProperty('--gx', (x * 100) + '%');
+                el.style.setProperty('--gy', (y * 100) + '%');
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = '';
+            });
+        });
+    }
+
+    /* ----------------------------------------------------------
+       Animated number counter (data-count → data-count-end)
+       Triggers when the element scrolls into the viewport, or on
+       page load if already visible.
+       ---------------------------------------------------------- */
+    function startCounter(el) {
+        if (el._counted) return;
+        el._counted = true;
+        const end = parseFloat(el.dataset.countEnd);
+        const start = parseFloat(el.dataset.count || '0');
+        if (start === end) { el.textContent = String(end); return; }
+        const suffix = el.dataset.countSuffix || '';
+        const format = el.dataset.countFormat;
+        const duration = 1600;
+        const startTime = performance.now();
+        const ease = (t) => 1 - Math.pow(1 - t, 3);
+        const fmt = (n) => {
+            const v = Math.round(n);
+            if (format === 'space') {
+                return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            }
+            return v.toString();
+        };
+        function tick(now) {
+            const t = Math.min((now - startTime) / duration, 1);
+            const value = start + (end - start) * ease(t);
+            el.textContent = fmt(value) + suffix;
+            if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+    }
+
+    if (!prefersReduced) {
+        const counters = Array.from(document.querySelectorAll('[data-count-end]'));
+        const checkCounters = () => {
+            counters.forEach(el => {
+                if (el._counted) return;
+                const r = el.getBoundingClientRect();
+                if (r.top < window.innerHeight * 0.92 && r.bottom > 0) {
+                    startCounter(el);
+                }
+            });
+        };
+        checkCounters();
+        window.addEventListener('scroll', checkCounters, { passive: true });
+        window.addEventListener('resize', checkCounters);
+    }
+
+    /* ----------------------------------------------------------
        Three.js setup helpers
        ---------------------------------------------------------- */
     if (typeof THREE === 'undefined') {
@@ -504,15 +578,25 @@
         return;
     }
 
-    const DPR_CAP = Math.min(window.devicePixelRatio || 1, 1.5);
     const IS_MOBILE = window.innerWidth < 700;
+    const DPR_CAP = Math.min(window.devicePixelRatio || 1, IS_MOBILE ? 1 : 1.5);
+
+    // Track tab visibility — pause all scenes when the tab is in the
+    // background to save battery / CPU. Each scene checks `pageVisible`
+    // in its tick function.
+    let pageVisible = !document.hidden;
+    document.addEventListener('visibilitychange', () => {
+        pageVisible = !document.hidden;
+    });
 
     /* ==========================================================
        SCENE 1 — Background: drifting particles + low-poly torus
+       Skip on mobile to save battery and GPU.
        ========================================================== */
     (function backgroundScene() {
         const canvas = document.getElementById('bg-canvas');
         if (!canvas) return;
+        if (IS_MOBILE) { canvas.style.display = 'none'; return; }
 
         const scene = new THREE.Scene();
         scene.fog = new THREE.FogExp2(0x0a0a0c, 0.06);
@@ -529,7 +613,7 @@
         renderer.setPixelRatio(DPR_CAP);
 
         /* Particle field --------------------------------------- */
-        const particleCount = IS_MOBILE ? 120 : 220;
+        const particleCount = IS_MOBILE ? 60 : 150;
         const positions = new Float32Array(particleCount * 3);
         const speeds = new Float32Array(particleCount);
         for (let i = 0; i < particleCount; i++) {
@@ -553,7 +637,7 @@
         scene.add(points);
 
         /* Red-tinted accent particles -------------------------- */
-        const accentCount = IS_MOBILE ? 30 : 60;
+        const accentCount = IS_MOBILE ? 18 : 40;
         const accentPositions = new Float32Array(accentCount * 3);
         for (let i = 0; i < accentCount; i++) {
             accentPositions[i * 3]     = (Math.random() - 0.5) * 30;
@@ -609,9 +693,10 @@
 
         /* Animate ---------------------------------------------- */
         let last = performance.now();
-        const FRAME_MS = 1000 / 40; // throttle bg to ~40fps
+        const FRAME_MS = 1000 / 30; // throttle bg to ~30fps (it's just ambient)
         let acc = 0;
         function tick(now) {
+            if (!pageVisible) { requestAnimationFrame(tick); return; }
             const elapsed = now - last;
             last = now;
             acc += elapsed;
@@ -852,6 +937,7 @@
 
         function tick(now) {
             if (!running) return;
+            if (!pageVisible) { requestAnimationFrame(tick); return; }
             const dt = Math.min((now - last) / 16.67, 3);
             last = now;
 
@@ -876,6 +962,149 @@
             requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
+    })();
+
+
+    /* ==========================================================
+       SCENE 3 — About section: floating chopsticks + soy droplets
+       Runs only while the About section is in the viewport.
+       ========================================================== */
+    (function aboutScene() {
+        const canvas = document.getElementById('about-canvas');
+        if (!canvas || prefersReduced) return;
+        if (IS_MOBILE) { canvas.style.display = 'none'; return; }
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+        camera.position.set(0, 0, 10);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance'
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
+
+        // Lights — single directional + ambient is enough for the scale of this scene
+        scene.add(new THREE.AmbientLight(0xffeacc, 0.55));
+        const key = new THREE.DirectionalLight(0xfff1d8, 0.85);
+        key.position.set(3, 4, 5);
+        scene.add(key);
+
+        // Chopsticks — a thin tapered cone group, in pairs
+        function makeChopstickPair(color) {
+            const group = new THREE.Group();
+            const mat = new THREE.MeshStandardMaterial({
+                color, roughness: 0.55, metalness: 0.1
+            });
+            for (let i = 0; i < 2; i++) {
+                const stick = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.025, 0.06, 2.2, 8),
+                    mat
+                );
+                stick.rotation.z = (i === 0 ? -0.12 : 0.12);
+                stick.position.x = (i === 0 ? -0.10 : 0.10);
+                group.add(stick);
+            }
+            return group;
+        }
+
+        // Soy droplet — small sphere
+        function makeDroplet(color) {
+            const mat = new THREE.MeshStandardMaterial({
+                color, roughness: 0.2, metalness: 0.3
+            });
+            const geo = new THREE.SphereGeometry(0.18, 16, 12);
+            return new THREE.Mesh(geo, mat);
+        }
+
+        // Sesame seed — tiny flat ellipsoid
+        function makeSesame() {
+            const mat = new THREE.MeshStandardMaterial({
+                color: 0xfff5d8, roughness: 0.4, metalness: 0.2
+            });
+            const m = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 6), mat);
+            m.scale.set(1, 0.45, 1.7);
+            return m;
+        }
+
+        const sceneObjects = [];
+
+        const isMobile = window.innerWidth < 700;
+        const chopstickCount = isMobile ? 2 : 3;
+        const dropCount      = isMobile ? 3 : 4;
+        const sesameCount    = isMobile ? 6 : 9;
+
+        const stickColors = [0xd4af37, 0xe8a456, 0x8b5a2b, 0xb8763d];
+        for (let i = 0; i < chopstickCount; i++) {
+            const pair = makeChopstickPair(stickColors[i]);
+            pair.position.set((Math.random() - 0.5) * 14, (Math.random() - 0.5) * 7, (Math.random() - 0.5) * 4);
+            pair.rotation.z = Math.random() * Math.PI;
+            pair.rotation.x = Math.random() * 0.6;
+            scene.add(pair);
+            sceneObjects.push({ mesh: pair, rotSpeed: (Math.random() - 0.5) * 0.006, floatPhase: Math.random() * Math.PI * 2, floatSpeed: 0.4 + Math.random() * 0.6 });
+        }
+        const dropColors = [0x6b3416, 0x5a2810, 0x7a3a18];
+        for (let i = 0; i < dropCount; i++) {
+            const d = makeDroplet(dropColors[i % dropColors.length]);
+            d.position.set((Math.random() - 0.5) * 16, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 4);
+            scene.add(d);
+            sceneObjects.push({ mesh: d, rotSpeed: (Math.random() - 0.5) * 0.02, floatPhase: Math.random() * Math.PI * 2, floatSpeed: 0.6 + Math.random() * 0.8 });
+        }
+        for (let i = 0; i < sesameCount; i++) {
+            const s = makeSesame();
+            s.position.set((Math.random() - 0.5) * 18, (Math.random() - 0.5) * 9, (Math.random() - 0.5) * 5);
+            s.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            scene.add(s);
+            sceneObjects.push({ mesh: s, rotSpeed: (Math.random() - 0.5) * 0.025, floatPhase: Math.random() * Math.PI * 2, floatSpeed: 0.8 + Math.random() * 1.2 });
+        }
+
+        function resize() {
+            const r = canvas.getBoundingClientRect();
+            if (r.width < 1) return;
+            renderer.setSize(r.width, r.height, false);
+            camera.aspect = r.width / r.height;
+            camera.updateProjectionMatrix();
+        }
+        resize();
+        const ro = new ResizeObserver(resize);
+        ro.observe(canvas);
+
+        // Only render when the section is on screen
+        let running = false;
+        const visObserver = new IntersectionObserver(([entry]) => {
+            running = entry.isIntersecting;
+            if (running) requestAnimationFrame(tick);
+        }, { threshold: 0.05 });
+        visObserver.observe(canvas);
+
+        // Throttle to ~40fps to keep CPU/GPU light
+        let last = performance.now();
+        const FRAME_MS = 1000 / 40;
+        let acc = 0;
+        function tick(now) {
+            if (!running) return;
+            if (!pageVisible) { requestAnimationFrame(tick); return; }
+            acc += now - last;
+            last = now;
+            if (acc < FRAME_MS) {
+                requestAnimationFrame(tick);
+                return;
+            }
+            const dt = Math.min(acc / 16.67, 3);
+            acc = 0;
+            const t = now * 0.001;
+
+            sceneObjects.forEach((o) => {
+                o.mesh.rotation.x += o.rotSpeed * dt;
+                o.mesh.rotation.y += o.rotSpeed * 0.7 * dt;
+                o.mesh.position.y += Math.sin(t * o.floatSpeed + o.floatPhase) * 0.005;
+            });
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(tick);
+        }
     })();
 
 })();

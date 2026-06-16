@@ -90,8 +90,13 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     background: radial-gradient(circle at 30% 30%, #ffd4dc, #f48da3 60%, #b75972);
     border-radius: 70% 30% 70% 30% / 40% 70% 30% 60%;
     opacity: 0.85;
-    filter: drop-shadow(0 0 6px rgba(255, 180, 200, 0.35));
+    /* drop-shadow is expensive — drop it on smaller screens */
+    filter: drop-shadow(0 0 4px rgba(255, 180, 200, 0.25));
     animation: fall linear infinite;
+    will-change: transform, opacity;
+}
+@media (max-width: 900px) {
+    .sakura { filter: none; }
 }
 @keyframes fall {
     0% { transform: translate3d(0,-60px,0) rotate(0deg); opacity: 0; }
@@ -492,6 +497,7 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     white-space: nowrap;
     animation: ticker 40s linear infinite;
     width: max-content;
+    will-change: transform;
 }
 .ticker__track span {
     font-family: 'Manrope', sans-serif;
@@ -588,63 +594,6 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     place-items: center;
     transform: translateZ(20px);
 }
-.dish__plate {
-    position: absolute;
-    width: 78%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 38% 32%, #f8f1e2 0%, #d4c5ab 60%, #5f513c 100%);
-    box-shadow: 0 30px 50px -20px rgba(0,0,0,0.7), 0 0 0 4px rgba(0,0,0,0.25) inset;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotateX(58deg);
-    transition: transform .6s var(--ease);
-}
-.dish:hover .dish__plate {
-    transform: translate(-50%, -50%) rotateX(58deg) rotate(20deg);
-}
-.dish__shadow {
-    position: absolute;
-    width: 70%;
-    height: 14%;
-    bottom: 12%;
-    left: 15%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(0,0,0,0.55), transparent 70%);
-    filter: blur(4px);
-}
-.dish__art {
-    position: relative;
-    width: 56%;
-    aspect-ratio: 1;
-    transform-style: preserve-3d;
-    transition: transform .8s var(--ease);
-}
-.dish:hover .dish__art { transform: rotateZ(180deg) translateY(-6px); }
-.roll {
-    position: absolute;
-    width: 38%;
-    height: 38%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #fff5e0 0%, #f0e1c4 55%, #c6b18a 100%);
-    box-shadow:
-        0 6px 14px rgba(0,0,0,0.45),
-        inset 0 0 0 3px #1a1a1a,
-        inset 0 0 0 4px #2a2a2a,
-        inset 0 0 0 8px var(--roll-fill, var(--salmon));
-}
-.roll--1 { top: 0;   left: 50%; transform: translateX(-50%); }
-.roll--2 { top: 50%; left: 0;   transform: translateY(-50%); }
-.roll--3 { top: 50%; right: 0;  transform: translateY(-50%); }
-.roll--4 { bottom: 0; left: 50%; transform: translateX(-50%); }
-
-.dish__art--salmon { --roll-fill: #fa8072; }
-.dish__art--green  { --roll-fill: #6aa86a; }
-.dish__art--tiger  { --roll-fill: #e8a456; }
-.dish__art--philly { --roll-fill: #f4b8a0; }
-.dish__art--spice  { --roll-fill: #c8362d; }
-.dish__art--maki   { --roll-fill: #232323; }
-
 .dish__body { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .dish__tag {
     align-self: flex-start;
@@ -741,7 +690,27 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     transform: translateY(0);
     animation: setsFloat 6s ease-in-out infinite;
     background: #000;
+    transform-style: preserve-3d;
+    will-change: transform;
 }
+.sets__photo[data-sets-tilt] {
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+}
+.sets__photo-glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+        circle at var(--gx, 50%) var(--gy, 50%),
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0) 35%
+    );
+    opacity: 0;
+    transition: opacity .3s var(--ease);
+    z-index: 2;
+    mix-blend-mode: overlay;
+}
+.sets__photo[data-sets-tilt]:hover .sets__photo-glare { opacity: 1; }
 .sets__photo::after {
     content: "";
     position: absolute;
@@ -802,66 +771,23 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     50%      { transform: translateY(-10px) rotate(0.4deg); }
 }
 
-/* Old CSS plate (kept for backwards compatibility / fallback) */
-.sets__plate-3d {
-    position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-    animation: tilt 8s ease-in-out infinite;
-}
-@keyframes tilt {
-    0%, 100% { transform: rotateX(58deg) rotateZ(0deg); }
-    50%      { transform: rotateX(58deg) rotateZ(360deg); }
-}
-.sets__plate-base {
-    position: absolute;
-    inset: 8%;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 38% 32%, #f8f1e2 0%, #d4c5ab 65%, #4d3e29 100%);
-    box-shadow: 0 50px 80px -30px rgba(0,0,0,0.9), 0 0 0 5px rgba(0,0,0,0.3) inset;
-}
-.sets__plate-orbit {
-    position: absolute;
-    inset: 8%;
-}
-.sets__roll {
-    --angle: calc(var(--i) * 45deg);
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 22%; height: 22%;
-    border-radius: 50%;
-    transform: rotate(var(--angle)) translateY(-130%);
-    background: radial-gradient(circle at 35% 35%, #fff5e0 0%, #f0e1c4 55%, #b89a6f 100%);
-    box-shadow:
-        0 6px 18px rgba(0,0,0,0.45),
-        inset 0 0 0 3px #1a1a1a,
-        inset 0 0 0 4px #2a2a2a,
-        inset 0 0 0 9px var(--c, var(--salmon));
-}
-.sets__roll:nth-child(1) { --c: #fa8072; }
-.sets__roll:nth-child(2) { --c: #e8a456; }
-.sets__roll:nth-child(3) { --c: #6aa86a; }
-.sets__roll:nth-child(4) { --c: #f4b8a0; }
-.sets__roll:nth-child(5) { --c: #fa8072; }
-.sets__roll:nth-child(6) { --c: #c8362d; }
-.sets__roll:nth-child(7) { --c: #232323; }
-.sets__roll:nth-child(8) { --c: #e8a456; }
-
-.sets__plate-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Noto Serif JP', serif;
-    font-size: clamp(40px, 6vw, 64px);
-    color: rgba(0,0,0,0.18);
-    font-weight: 900;
-}
-
 /* About --------------------------------------------------------- */
 .about {
     padding: clamp(70px, 10vw, 130px) 0;
+    position: relative;
+    overflow: hidden;
 }
+.about__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.55;
+    mask-image: radial-gradient(60% 70% at 50% 50%, #000 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(60% 70% at 50% 50%, #000 60%, transparent 100%);
+}
+.about__grid { position: relative; z-index: 1; }
 .about__grid {
     display: grid;
     grid-template-columns: 1.3fr 1fr;
@@ -1234,6 +1160,9 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     gap: 16px;
     cursor: pointer;
     user-select: none;
+    /* Skip rendering off-screen cards entirely — huge perf win with 100+ items */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 130px;
 }
 .dish__visual {
     width: 72px;

@@ -1260,8 +1260,9 @@
                     </div>
                 </div>
                 <div class="sets__visual">
-                    <div class="sets__photo">
+                    <div class="sets__photo" data-sets-tilt>
                         <img src="img/dishes/bushido-set.jpg" alt="Сет «Бушидо» — добірний асортимент ролів" loading="lazy">
+                        <div class="sets__photo-glare"></div>
                         <div class="sets__photo-badge">
                             <span class="sets__photo-mark">忍</span>
                             <span class="sets__photo-text">Sushi Shinobi</span>
@@ -1274,6 +1275,7 @@
 
 
     <section class="about" id="about">
+        <canvas id="about-canvas" class="about__canvas" aria-hidden="true"></canvas>
         <div class="container about__grid">
             <div class="about__copy reveal">
                 <span class="section__kicker">私たちについて · Про нас</span>
@@ -1331,9 +1333,9 @@
                     </div>
                 </div>
                 <div class="about__stats">
-                    <div><b>2019</b><span>рік відкриття</span></div>
-                    <div><b>32 000+</b><span>замовлень</span></div>
-                    <div><b>120+</b><span>позицій у меню</span></div>
+                    <div><b data-count="2019" data-count-end="2019">2019</b><span>рік відкриття</span></div>
+                    <div><b data-count="0" data-count-end="32000" data-count-suffix="+" data-count-format="space">0</b><span>замовлень</span></div>
+                    <div><b data-count="0" data-count-end="120" data-count-suffix="+">0</b><span>позицій у меню</span></div>
                 </div>
             </aside>
         </div>
