@@ -1433,13 +1433,15 @@
                 </ul>
             </div>
 
-            <div class="contact__map reveal">
-                <iframe
-                    title="Суші Шінобі — карта"
-                    src="https://www.google.com/maps?q=вулиця+Ярослава+Мудрого+18,+Корсунь-Шевченківський&output=embed"
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+            <div class="contact__map reveal" id="contact-map"
+                 data-map-src="https://www.google.com/maps?q=вулиця+Ярослава+Мудрого+18,+Корсунь-Шевченківський&output=embed">
+                <div class="contact__map-placeholder" id="map-placeholder">
+                    <p>
+                        Щоб показати інтерактивну мапу, Google Maps потребує згоди на використання
+                        cookie. Або відкрийте її окремо за маршрутом нижче.
+                    </p>
+                    <button type="button" id="map-accept">Показати мапу</button>
+                </div>
                 <a class="contact__route" href="https://www.google.com/maps/dir/?api=1&destination=вулиця+Ярослава+Мудрого+18,+Корсунь-Шевченківський" target="_blank" rel="noopener">
                     Прокласти маршрут
                     <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M5 12h12.17l-3.58-3.59L15 7l6 6-6 6-1.41-1.41L17.17 14H5z"/></svg>
@@ -1520,10 +1522,28 @@
         </div>
         <div class="footer__bottom">
             <span>© 2026 «Суші Шінобі». Усі права захищені.</span>
-            <span>Зроблено з 愛 в Україні</span>
+            <span>
+                <a href="privacy.html">Політика конфіденційності</a>
+                &nbsp;·&nbsp;
+                Зроблено з 愛 в Україні
+            </span>
         </div>
     </div>
 </footer>
+
+
+<!-- ===== COOKIE CONSENT BANNER ===== -->
+<div class="cookies" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Згода на використання cookie">
+    <p class="cookies__text">
+        Сайт використовує необхідні cookie тільки за вашою згодою — для показу
+        Google&nbsp;Maps з адресою кафе. Деталі в
+        <a href="privacy.html">Політиці конфіденційності</a>.
+    </p>
+    <div class="cookies__actions">
+        <button type="button" class="cookies__btn" data-cookie="decline">Тільки необхідні</button>
+        <button type="button" class="cookies__btn cookies__btn--primary" data-cookie="accept">Прийняти все</button>
+    </div>
+</div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

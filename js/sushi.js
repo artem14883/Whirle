@@ -336,6 +336,69 @@
     attachPhotos();
 
     /* ----------------------------------------------------------
+       Cookie consent + Google Maps gating
+       Consent stored in localStorage as 'cookie-consent' = 'accept' | 'decline'.
+       Map iframe is injected only after explicit accept.
+       ---------------------------------------------------------- */
+    (function cookieConsent() {
+        const KEY = 'cookie-consent';
+        const banner = document.getElementById('cookie-banner');
+        const mapEl = document.getElementById('contact-map');
+        const placeholder = document.getElementById('map-placeholder');
+        const mapAcceptBtn = document.getElementById('map-accept');
+
+        function loadMap() {
+            if (!mapEl || mapEl.querySelector('iframe')) return;
+            const src = mapEl.dataset.mapSrc;
+            if (!src) return;
+            const iframe = document.createElement('iframe');
+            iframe.title = 'Суші Шінобі — карта';
+            iframe.src = src;
+            iframe.loading = 'lazy';
+            iframe.referrerPolicy = 'no-referrer-when-downgrade';
+            mapEl.insertBefore(iframe, mapEl.firstChild);
+            if (placeholder) placeholder.remove();
+        }
+
+        function showPlaceholder() {
+            if (!placeholder || !mapEl) return;
+            // already there by default in HTML — nothing to do
+        }
+
+        const stored = (() => { try { return localStorage.getItem(KEY); } catch { return null; } })();
+
+        if (stored === 'accept') {
+            loadMap();
+        } else if (stored === 'decline') {
+            showPlaceholder();
+        } else if (banner) {
+            // First visit — show banner after a short delay so it doesn't jump in
+            setTimeout(() => banner.classList.add('is-visible'), 600);
+        }
+
+        if (banner) {
+            banner.querySelectorAll('[data-cookie]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const choice = btn.dataset.cookie;
+                    try { localStorage.setItem(KEY, choice); } catch {}
+                    banner.classList.remove('is-visible');
+                    if (choice === 'accept') loadMap();
+                });
+            });
+        }
+
+        // Visitor can opt-in to the map directly from the placeholder
+        if (mapAcceptBtn) {
+            mapAcceptBtn.addEventListener('click', () => {
+                try { localStorage.setItem(KEY, 'accept'); } catch {}
+                if (banner) banner.classList.remove('is-visible');
+                loadMap();
+            });
+        }
+    })();
+
+
+    /* ----------------------------------------------------------
        Mobile nav
        ---------------------------------------------------------- */
     const burger = document.getElementById('burger');
