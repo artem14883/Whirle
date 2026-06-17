@@ -1,12 +1,29 @@
 {
-  "phone": "+380637764572",
-  "phone_display": "063 776 45 72",
-  "address": "вулиця Ярослава Мудрого, 18",
-  "address_city": "Корсунь-Шевченківський, 19401",
-  "hours": "щодня · 11:00 — 21:00",
-  "closes_at": "21:00",
+  "brand_tagline": "Sushi Bar",
   "instagram_url": "https://www.instagram.com/shinobikorsun.ua/",
   "instagram_handle": "shinobikorsun.ua",
   "rating": "5,0",
-  "reviews_count": 31
+  "reviews_count": 31,
+  "primary_phone": "+380637764572",
+  "primary_phone_display": "063 776 45 72",
+  "locations": [
+    {
+      "city": "Корсунь-Шевченківський",
+      "address": "вул. Ярослава Мудрого, 18",
+      "postal": "19401",
+      "phone": "+380637764572",
+      "phone_display": "063 776 45 72",
+      "hours": "щодня · 11:00 — 21:00",
+      "map_query": "вулиця Ярослава Мудрого 18, Корсунь-Шевченківський"
+    },
+    {
+      "city": "Городище",
+      "address": "вул. Миру, 119",
+      "postal": "19500",
+      "phone": "+380682612551",
+      "phone_display": "068 261 25 51",
+      "hours": "щодня · 11:00 — 21:00",
+      "map_query": "вулиця Миру 119, Городище, Черкаська область"
+    }
+  ]
 }

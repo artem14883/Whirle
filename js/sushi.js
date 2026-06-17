@@ -356,19 +356,26 @@
         ]);
 
         if (site) {
-            // tel: links + phone display
-            document.querySelectorAll('a[href^="tel:"]').forEach(a => {
-                a.setAttribute('href', 'tel:' + site.phone.replace(/\s+/g, ''));
+            // Brand-wide bits that aren't tied to a specific location.
+            // Per-location address/phone/hours are hardcoded in the HTML
+            // so each tel: link points to the right city.
+            const setText = (sel, val) => {
+                if (val == null) return;
+                document.querySelectorAll(sel).forEach(el => el.textContent = val);
+            };
+            const setHref = (sel, val) => {
+                if (val == null) return;
+                document.querySelectorAll(sel).forEach(el => el.setAttribute('href', val));
+            };
+            setText('[data-site="brand_tagline"]',  site.brand_tagline);
+            setText('[data-site="rating"]',         site.rating ? '★ ' + site.rating : null);
+            // Header CTA: phone of the PRIMARY (Korsun) location
+            setText('[data-site="phone"]',          site.primary_phone_display);
+            document.querySelectorAll('a.header__cta').forEach(a => {
+                if (site.primary_phone) a.setAttribute('href', 'tel:' + site.primary_phone);
             });
-            document.querySelectorAll('[data-site="phone"]').forEach(el => el.textContent = site.phone_display);
-            document.querySelectorAll('[data-site="address"]').forEach(el => el.textContent = site.address);
-            document.querySelectorAll('[data-site="address_city"]').forEach(el => el.textContent = site.address_city);
-            document.querySelectorAll('[data-site="hours"]').forEach(el => el.textContent = site.hours);
-            document.querySelectorAll('[data-site="closes_at"]').forEach(el => el.textContent = site.closes_at);
-            document.querySelectorAll('[data-site="instagram_url"]').forEach(el => el.setAttribute('href', site.instagram_url));
-            document.querySelectorAll('[data-site="instagram_handle"]').forEach(el => el.textContent = '@' + site.instagram_handle);
-            document.querySelectorAll('[data-site="rating"]').forEach(el => el.textContent = '★ ' + site.rating);
-            document.querySelectorAll('[data-site="reviews_count"]').forEach(el => el.textContent = site.reviews_count + ' відгук · Корсунь-Шевченківський');
+            setHref('[data-site="instagram_url"]',  site.instagram_url);
+            setText('[data-site="instagram_handle"]', site.instagram_handle ? '@' + site.instagram_handle : null);
         }
 
         if (hero) {
