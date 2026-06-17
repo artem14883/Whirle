@@ -350,9 +350,8 @@
             } catch { return null; }
         };
 
-        const [site, weekly, hero] = await Promise.all([
+        const [site, hero] = await Promise.all([
             readJson('data/site.json'),
-            readJson('data/weekly-set.json'),
             readJson('data/hero.json')
         ]);
 
@@ -370,18 +369,6 @@
             document.querySelectorAll('[data-site="instagram_handle"]').forEach(el => el.textContent = '@' + site.instagram_handle);
             document.querySelectorAll('[data-site="rating"]').forEach(el => el.textContent = '★ ' + site.rating);
             document.querySelectorAll('[data-site="reviews_count"]').forEach(el => el.textContent = site.reviews_count + ' відгук · Корсунь-Шевченківський');
-        }
-
-        if (weekly) {
-            const $ = (sel) => document.querySelector(sel);
-            const badge = $('[data-weekly="badge"]');     if (badge)   badge.textContent   = `Сет тижня · до ${weekly.valid_until}`;
-            const title = $('[data-weekly="title"]');     if (title)   title.textContent   = `${weekly.name} — ${weekly.subtitle}`;
-            const desc  = $('[data-weekly="description"]'); if (desc)  desc.textContent    = weekly.description;
-            const op    = $('[data-weekly="old_price"]'); if (op)      op.textContent      = `${weekly.old_price.toLocaleString('uk-UA').replace(/,/g, ' ')} ₴`;
-            const np    = $('[data-weekly="new_price"]'); if (np)      np.textContent      = `${weekly.new_price.toLocaleString('uk-UA').replace(/,/g, ' ')} ₴`;
-            const save  = $('[data-weekly="save"]');      if (save)    save.textContent    = `−${(weekly.old_price - weekly.new_price).toLocaleString('uk-UA').replace(/,/g, ' ')} ₴`;
-            const cta   = $('[data-weekly="cta"]');       if (cta)     cta.textContent     = `Замовити ${weekly.name}`;
-            const photo = $('[data-weekly="photo"]');     if (photo && weekly.photo) photo.setAttribute('src', weekly.photo.replace(/^\//, ''));
         }
 
         if (hero) {

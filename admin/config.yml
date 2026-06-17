@@ -53,25 +53,6 @@ collections:
           - { name: "rating",           label: "Рейтинг на Google",                          widget: "string", required: false, default: "5,0" }
           - { name: "reviews_count",    label: "Кількість відгуків",                         widget: "number", required: false, default: 31 }
 
-  # ─── Weekly featured set ───────────────────────────────────────────
-  - name: "weekly_set"
-    label: "Сет тижня"
-    description: "Великий блок «СЕТ ТИЖНЯ» з фото, ціною та переліком ролів. Оновлюйте раз на тиждень."
-    files:
-      - name: "current"
-        label: "Поточний сет тижня"
-        file: "data/weekly-set.json"
-        format: "json"
-        fields:
-          - { name: "name",          label: "Назва сету",                  widget: "string", required: true, hint: "Напр. «Бушидо»" }
-          - { name: "subtitle",      label: "Підзаголовок",                widget: "string", required: true, hint: "Напр. 1,6 кг лагідного смаку" }
-          - { name: "description",   label: "Опис складу",                 widget: "text",   required: true }
-          - { name: "old_price",     label: "Звичайна ціна (₴)",           widget: "number", required: true, value_type: "int", min: 0 }
-          - { name: "new_price",     label: "Акційна ціна (₴)",            widget: "number", required: true, value_type: "int", min: 0 }
-          - { name: "weight",        label: "Вага",                        widget: "string", required: true, hint: "Напр. 1,6 кг або 48 шт" }
-          - { name: "valid_until",   label: "Акція діє до",                widget: "string", required: true, hint: "Напр. 21.03" }
-          - { name: "photo",         label: "Фото сету",                   widget: "image",  required: true, default: "/img/dishes/bushido-set.jpg" }
-
   # ─── Hero section copy ─────────────────────────────────────────────
   - name: "hero"
     label: "Головний блок (Hero)"

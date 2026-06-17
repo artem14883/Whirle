@@ -650,6 +650,13 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
     font-weight: 700;
     margin-bottom: 22px;
 }
+.sets__badge--zen {
+    background: rgba(212, 175, 55, 0.10);
+    color: var(--gold-2);
+    border-color: rgba(212, 175, 55, 0.35);
+    letter-spacing: 0.4em;
+    font-family: 'Noto Serif JP', 'Manrope', serif;
+}
 .sets__title {
     font-size: clamp(28px, 3.8vw, 50px);
     font-weight: 800;
