@@ -42,7 +42,7 @@
 
         <a href="tel:+380637764572" class="header__cta">
             <span class="header__cta-dot"></span>
-            <span class="header__cta-text">063 776 45 72</span>
+            <span class="header__cta-text" data-site="phone">063 776 45 72</span>
         </a>
 
         <button class="burger" id="burger" aria-label="Меню">
@@ -57,15 +57,15 @@
         <div class="container hero__grid">
             <div class="hero__content">
                 <div class="hero__eyebrow">
-                    <span class="hero__rating">★ 5,0</span>
-                    <span class="hero__rating-text">31 відгук · Корсунь-Шевченківський</span>
+                    <span class="hero__rating" data-site="rating">★ 5,0</span>
+                    <span class="hero__rating-text" data-site="reviews_count">31 відгук · Корсунь-Шевченківський</span>
                 </div>
                 <h1 class="hero__title">
-                    <span class="hero__title-jp">寿司</span>
-                    <span class="hero__title-line">Суші, що</span>
-                    <span class="hero__title-line hero__title-accent">оживає на язиці.</span>
+                    <span class="hero__title-jp" data-hero="title_jp">寿司</span>
+                    <span class="hero__title-line" data-hero="title_line1">Суші, що</span>
+                    <span class="hero__title-line hero__title-accent" data-hero="title_line2">оживає на язиці.</span>
                 </h1>
-                <p class="hero__text">
+                <p class="hero__text" data-hero="description">
                     Готуємо у Корсунь-Шевченківському з 2019 року. Свіжий лосось, тигрова креветка,
                     японський рис і авторські соуси — щоранку нова партія.
                 </p>
@@ -1243,25 +1243,25 @@
         <div class="container">
             <div class="sets__feature reveal">
                 <div class="sets__copy">
-                    <span class="sets__badge">Сет тижня · до 21.03</span>
-                    <h2 class="sets__title">«Бушидо» — 1,6 кг лагідного смаку.</h2>
-                    <p class="sets__text">
+                    <span class="sets__badge" data-weekly="badge">Сет тижня · до 21.03</span>
+                    <h2 class="sets__title" data-weekly="title">«Бушидо» — 1,6 кг лагідного смаку.</h2>
+                    <p class="sets__text" data-weekly="description">
                         48 шматочків у складі: Філадельфія, Темпура Ебі, Каліфорнія з тунцем,
                         Зелений Дракон, Маки Йосай. Подаємо з імбиром, васабі та соєвим соусом.
                     </p>
                     <ul class="sets__list">
-                        <li><b>1 600 ₴</b><span>звичайна ціна</span></li>
-                        <li><b class="sets__price">1 400 ₴</b><span>акція тижня</span></li>
-                        <li><b>−200 ₴</b><span>економія</span></li>
+                        <li><b data-weekly="old_price">1 600 ₴</b><span>звичайна ціна</span></li>
+                        <li><b class="sets__price" data-weekly="new_price">1 400 ₴</b><span>акція тижня</span></li>
+                        <li><b data-weekly="save">−200 ₴</b><span>економія</span></li>
                     </ul>
                     <div class="sets__actions">
-                        <button type="button" class="btn btn--primary" data-order-trigger>Замовити «Бушидо»</button>
+                        <button type="button" class="btn btn--primary" data-order-trigger data-weekly="cta">Замовити «Бушидо»</button>
                         <a href="#contact" class="btn btn--ghost">Самовивіз</a>
                     </div>
                 </div>
                 <div class="sets__visual">
                     <div class="sets__photo" data-sets-tilt>
-                        <img src="img/dishes/bushido-set.jpg" alt="Сет «Бушидо» — добірний асортимент ролів" loading="lazy">
+                        <img src="img/dishes/bushido-set.jpg" alt="Сет «Бушидо» — добірний асортимент ролів" loading="lazy" data-weekly="photo">
                         <div class="sets__photo-glare"></div>
                         <div class="sets__photo-badge">
                             <span class="sets__photo-mark">忍</span>
@@ -1396,7 +1396,7 @@
                         </span>
                         <div>
                             <em>Адреса</em>
-                            <b>вулиця Ярослава Мудрого, 18<br>Корсунь-Шевченківський, 19401</b>
+                            <b><span data-site="address">вулиця Ярослава Мудрого, 18</span><br><span data-site="address_city">Корсунь-Шевченківський, 19401</span></b>
                         </div>
                     </li>
                     <li>
@@ -1406,18 +1406,18 @@
                             </span>
                             <div>
                                 <em>Телефон</em>
-                                <b>063 776 45 72</b>
+                                <b data-site="phone">063 776 45 72</b>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.instagram.com/shinobikorsun.ua/" target="_blank" rel="noopener">
+                        <a href="https://www.instagram.com/shinobikorsun.ua/" target="_blank" rel="noopener" data-site="instagram_url">
                             <span class="contact__icn">
                                 <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm5 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm5.5-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
                             </span>
                             <div>
                                 <em>Instagram</em>
-                                <b>@shinobikorsun.ua</b>
+                                <b data-site="instagram_handle">@shinobikorsun.ua</b>
                             </div>
                         </a>
                     </li>
@@ -1427,7 +1427,7 @@
                         </span>
                         <div>
                             <em>Графік</em>
-                            <b>щодня · 11:00 — 21:00</b>
+                            <b data-site="hours">щодня · 11:00 — 21:00</b>
                         </div>
                     </li>
                 </ul>
@@ -1473,7 +1473,7 @@
 
         <a href="tel:+380637764572" class="order-modal__cta">
             <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 15.5c-1.3 0-2.6-.2-3.8-.6a1 1 0 0 0-1 .2l-2.2 2.2a15.1 15.1 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .2-1A11 11 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1A17 17 0 0 0 20 21a1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1Z"/></svg>
-            <span>063 776 45 72</span>
+            <span data-site="phone">063 776 45 72</span>
         </a>
 
         <div class="order-modal__hint">Натисніть — відкриється телефонна книга з готовим номером</div>
@@ -1510,8 +1510,8 @@
             </div>
             <div>
                 <h4>Контакт</h4>
-                <a href="tel:+380637764572">063 776 45 72</a>
-                <a href="https://www.instagram.com/shinobikorsun.ua/" target="_blank" rel="noopener">Instagram</a>
+                <a href="tel:+380637764572" data-site="phone">063 776 45 72</a>
+                <a href="https://www.instagram.com/shinobikorsun.ua/" target="_blank" rel="noopener" data-site="instagram_url">Instagram</a>
                 <a href="#contact">Адреса</a>
             </div>
             <div>

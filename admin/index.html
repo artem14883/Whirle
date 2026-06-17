@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Адмін-панель — Суші Шінобі</title>
+    <link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+</head>
+<body>
+    <!-- Decap CMS — git-based content editor.
+         Two ways this loads & authenticates:
+         1) Local development:
+              `npx decap-server` in repo root, then open
+              http://localhost:8080/admin/
+              (config.yml automatically uses local_backend)
+         2) Hosted with Netlify Identity:
+              Deploy the same repo to Netlify, turn on Identity
+              + Git Gateway. Visit https://<your>.netlify.app/admin/
+    -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
+</html>

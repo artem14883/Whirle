@@ -336,6 +336,64 @@
     attachPhotos();
 
     /* ----------------------------------------------------------
+       CMS data injection — fetches data/*.json and patches the
+       parts of the page the cafe owner can edit via /admin/.
+       Wrapped in try/catch so a missing/broken file never breaks
+       the rest of the site.
+       ---------------------------------------------------------- */
+    (async function cmsInject() {
+        const readJson = async (path) => {
+            try {
+                const r = await fetch(path, { cache: 'no-cache' });
+                if (!r.ok) return null;
+                return await r.json();
+            } catch { return null; }
+        };
+
+        const [site, weekly, hero] = await Promise.all([
+            readJson('data/site.json'),
+            readJson('data/weekly-set.json'),
+            readJson('data/hero.json')
+        ]);
+
+        if (site) {
+            // tel: links + phone display
+            document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+                a.setAttribute('href', 'tel:' + site.phone.replace(/\s+/g, ''));
+            });
+            document.querySelectorAll('[data-site="phone"]').forEach(el => el.textContent = site.phone_display);
+            document.querySelectorAll('[data-site="address"]').forEach(el => el.textContent = site.address);
+            document.querySelectorAll('[data-site="address_city"]').forEach(el => el.textContent = site.address_city);
+            document.querySelectorAll('[data-site="hours"]').forEach(el => el.textContent = site.hours);
+            document.querySelectorAll('[data-site="closes_at"]').forEach(el => el.textContent = site.closes_at);
+            document.querySelectorAll('[data-site="instagram_url"]').forEach(el => el.setAttribute('href', site.instagram_url));
+            document.querySelectorAll('[data-site="instagram_handle"]').forEach(el => el.textContent = '@' + site.instagram_handle);
+            document.querySelectorAll('[data-site="rating"]').forEach(el => el.textContent = '★ ' + site.rating);
+            document.querySelectorAll('[data-site="reviews_count"]').forEach(el => el.textContent = site.reviews_count + ' відгук · Корсунь-Шевченківський');
+        }
+
+        if (weekly) {
+            const $ = (sel) => document.querySelector(sel);
+            const badge = $('[data-weekly="badge"]');     if (badge)   badge.textContent   = `Сет тижня · до ${weekly.valid_until}`;
+            const title = $('[data-weekly="title"]');     if (title)   title.textContent   = `${weekly.name} — ${weekly.subtitle}`;
+            const desc  = $('[data-weekly="description"]'); if (desc)  desc.textContent    = weekly.description;
+            const op    = $('[data-weekly="old_price"]'); if (op)      op.textContent      = `${weekly.old_price.toLocaleString('uk-UA').replace(/,/g, ' ')} ₴`;
+            const np    = $('[data-weekly="new_price"]'); if (np)      np.textContent      = `${weekly.new_price.toLocaleString('uk-UA').replace(/,/g, ' ')} ₴`;
+            const save  = $('[data-weekly="save"]');      if (save)    save.textContent    = `−${(weekly.old_price - weekly.new_price).toLocaleString('uk-UA').replace(/,/g, ' ')} ₴`;
+            const cta   = $('[data-weekly="cta"]');       if (cta)     cta.textContent     = `Замовити ${weekly.name}`;
+            const photo = $('[data-weekly="photo"]');     if (photo && weekly.photo) photo.setAttribute('src', weekly.photo.replace(/^\//, ''));
+        }
+
+        if (hero) {
+            const jp     = document.querySelector('[data-hero="title_jp"]');    if (jp)    jp.textContent     = hero.title_jp;
+            const l1     = document.querySelector('[data-hero="title_line1"]');  if (l1)   l1.textContent     = hero.title_line1;
+            const l2     = document.querySelector('[data-hero="title_line2"]');  if (l2)   l2.textContent     = hero.title_line2;
+            const ds     = document.querySelector('[data-hero="description"]');  if (ds)   ds.textContent     = hero.description;
+        }
+    })();
+
+
+    /* ----------------------------------------------------------
        Cookie consent + Google Maps gating
        Consent stored in localStorage as 'cookie-consent' = 'accept' | 'decline'.
        Map iframe is injected only after explicit accept.

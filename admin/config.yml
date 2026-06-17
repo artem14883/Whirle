@@ -1,0 +1,94 @@
+# Decap CMS configuration for Суші Шінобі
+# Docs: https://decapcms.org/docs/
+
+# Backend: GitHub via Netlify Git Gateway (works when site is deployed
+# to Netlify with Identity + Git Gateway enabled). For local editing,
+# run `npx decap-server` in the repo root — the CMS will switch to the
+# local_backend automatically.
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: "CMS: add {{collection}} «{{slug}}»"
+    update: "CMS: update {{collection}} «{{slug}}»"
+    delete: "CMS: remove {{collection}} «{{slug}}»"
+    uploadMedia: "CMS: upload {{path}}"
+    deleteMedia: "CMS: remove {{path}}"
+
+# When `npx decap-server` is running on localhost, use it instead of
+# the production backend. Lets the owner edit locally without OAuth.
+local_backend: true
+
+# Where uploaded images go.
+media_folder: "img/dishes"
+public_folder: "/img/dishes"
+
+# UI language
+locale: uk
+
+# Site name shown in the CMS sidebar
+site_url: https://artem14883.github.io/Whirle/
+display_url: https://artem14883.github.io/Whirle/
+
+collections:
+  # ─── Settings: phone, address, hours, social ──────────────────────
+  - name: "settings"
+    label: "Налаштування кафе"
+    label_singular: "Налаштування"
+    description: "Контактні дані, графік роботи, соцмережі. Зʼявляються в шапці, футері та секції «Контакти»."
+    files:
+      - name: "site"
+        label: "Загальні налаштування"
+        file: "data/site.json"
+        format: "json"
+        fields:
+          - { name: "phone",            label: "Телефон (з кодом +380)",                     widget: "string", required: true }
+          - { name: "phone_display",    label: "Телефон як показувати на сайті",             widget: "string", required: true, hint: "Напр. 063 776 45 72" }
+          - { name: "address",          label: "Адреса (рядок 1)",                           widget: "string", required: true, hint: "Напр. вулиця Ярослава Мудрого, 18" }
+          - { name: "address_city",     label: "Адреса (місто і індекс)",                    widget: "string", required: true, hint: "Напр. Корсунь-Шевченківський, 19401" }
+          - { name: "hours",            label: "Графік роботи",                              widget: "string", required: true, hint: "Напр. щодня · 11:00 — 21:00" }
+          - { name: "closes_at",        label: "Зачиняємось о",                              widget: "string", required: true, hint: "Напр. 21:00" }
+          - { name: "instagram_url",    label: "URL Instagram",                              widget: "string", required: true }
+          - { name: "instagram_handle", label: "Instagram (нік без @)",                      widget: "string", required: true }
+          - { name: "rating",           label: "Рейтинг на Google",                          widget: "string", required: false, default: "5,0" }
+          - { name: "reviews_count",    label: "Кількість відгуків",                         widget: "number", required: false, default: 31 }
+
+  # ─── Weekly featured set ───────────────────────────────────────────
+  - name: "weekly_set"
+    label: "Сет тижня"
+    description: "Великий блок «СЕТ ТИЖНЯ» з фото, ціною та переліком ролів. Оновлюйте раз на тиждень."
+    files:
+      - name: "current"
+        label: "Поточний сет тижня"
+        file: "data/weekly-set.json"
+        format: "json"
+        fields:
+          - { name: "name",          label: "Назва сету",                  widget: "string", required: true, hint: "Напр. «Бушидо»" }
+          - { name: "subtitle",      label: "Підзаголовок",                widget: "string", required: true, hint: "Напр. 1,6 кг лагідного смаку" }
+          - { name: "description",   label: "Опис складу",                 widget: "text",   required: true }
+          - { name: "old_price",     label: "Звичайна ціна (₴)",           widget: "number", required: true, value_type: "int", min: 0 }
+          - { name: "new_price",     label: "Акційна ціна (₴)",            widget: "number", required: true, value_type: "int", min: 0 }
+          - { name: "weight",        label: "Вага",                        widget: "string", required: true, hint: "Напр. 1,6 кг або 48 шт" }
+          - { name: "valid_until",   label: "Акція діє до",                widget: "string", required: true, hint: "Напр. 21.03" }
+          - { name: "photo",         label: "Фото сету",                   widget: "image",  required: true, default: "/img/dishes/bushido-set.jpg" }
+
+  # ─── Hero section copy ─────────────────────────────────────────────
+  - name: "hero"
+    label: "Головний блок (Hero)"
+    description: "Заголовок, опис та статистика над згином."
+    files:
+      - name: "current"
+        label: "Hero-блок"
+        file: "data/hero.json"
+        format: "json"
+        fields:
+          - { name: "title_jp",     label: "Японський напис",     widget: "string", default: "寿司",        required: false }
+          - { name: "title_line1",  label: "Заголовок (рядок 1)", widget: "string", required: true }
+          - { name: "title_line2",  label: "Заголовок (рядок 2, виділений)", widget: "string", required: true }
+          - { name: "description",  label: "Опис під заголовком", widget: "text",   required: true }
+          - { name: "stat_1_value", label: "Стат. 1: значення",   widget: "string", required: true, hint: "Напр. 15хв" }
+          - { name: "stat_1_label", label: "Стат. 1: підпис",     widget: "string", required: true }
+          - { name: "stat_2_value", label: "Стат. 2: значення",   widget: "string", required: true }
+          - { name: "stat_2_label", label: "Стат. 2: підпис",     widget: "string", required: true }
+          - { name: "stat_3_value", label: "Стат. 3: значення",   widget: "string", required: true }
+          - { name: "stat_3_label", label: "Стат. 3: підпис",     widget: "string", required: true }
