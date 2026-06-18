@@ -1042,6 +1042,48 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 }
 .contact__social-link:hover { color: var(--ink); border-color: var(--gold); background: rgba(255,255,255,0.04); }
 .contact__social-link svg { color: var(--gold-2); }
+
+/* ───── Map location tabs ───── */
+.map-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.map-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: rgba(255,255,255,0.02);
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: color .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+}
+.map-tab::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink-dim);
+    transition: background .25s var(--ease), box-shadow .25s var(--ease);
+}
+.map-tab:hover { color: var(--ink); border-color: rgba(212, 175, 55, 0.5); }
+.map-tab.is-active {
+    color: var(--ink);
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.10);
+}
+.map-tab.is-active::before {
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+}
 .contact__grid {
     display: grid;
     grid-template-columns: 1fr 1.1fr;

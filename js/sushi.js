@@ -369,11 +369,8 @@
             };
             setText('[data-site="brand_tagline"]',  site.brand_tagline);
             setText('[data-site="rating"]',         site.rating ? '★ ' + site.rating : null);
-            // Header CTA: phone of the PRIMARY (Korsun) location
+            // Any explicit [data-site="phone"] spots still show the primary number
             setText('[data-site="phone"]',          site.primary_phone_display);
-            document.querySelectorAll('a.header__cta').forEach(a => {
-                if (site.primary_phone) a.setAttribute('href', 'tel:' + site.primary_phone);
-            });
             setHref('[data-site="instagram_url"]',  site.instagram_url);
             setText('[data-site="instagram_handle"]', site.instagram_handle ? '@' + site.instagram_handle : null);
         }
@@ -398,32 +395,36 @@
         const mapEl = document.getElementById('contact-map');
         const placeholder = document.getElementById('map-placeholder');
         const mapAcceptBtn = document.getElementById('map-accept');
+        const mapTabs = document.getElementById('map-tabs');
 
+        const consentGiven = () => {
+            try { return localStorage.getItem(KEY) === 'accept'; } catch { return false; }
+        };
+
+        // Build/replace the iframe for the currently-selected location.
         function loadMap() {
-            if (!mapEl || mapEl.querySelector('iframe')) return;
+            if (!mapEl) return;
             const src = mapEl.dataset.mapSrc;
             if (!src) return;
-            const iframe = document.createElement('iframe');
-            iframe.title = 'Суші Шінобі — карта';
-            iframe.src = src;
-            iframe.loading = 'lazy';
-            iframe.referrerPolicy = 'no-referrer-when-downgrade';
-            mapEl.insertBefore(iframe, mapEl.firstChild);
-            if (placeholder) placeholder.remove();
-        }
-
-        function showPlaceholder() {
-            if (!placeholder || !mapEl) return;
-            // already there by default in HTML — nothing to do
+            let iframe = mapEl.querySelector('iframe');
+            if (iframe) {
+                if (iframe.src !== src) iframe.src = src;
+            } else {
+                iframe = document.createElement('iframe');
+                iframe.title = 'Суші Шінобі — карта';
+                iframe.loading = 'lazy';
+                iframe.referrerPolicy = 'no-referrer-when-downgrade';
+                iframe.src = src;
+                mapEl.insertBefore(iframe, mapEl.firstChild);
+            }
+            if (placeholder && placeholder.parentNode) placeholder.remove();
         }
 
         const stored = (() => { try { return localStorage.getItem(KEY); } catch { return null; } })();
 
         if (stored === 'accept') {
             loadMap();
-        } else if (stored === 'decline') {
-            showPlaceholder();
-        } else if (banner) {
+        } else if (!stored && banner) {
             // First visit — show banner after a short delay so it doesn't jump in
             setTimeout(() => banner.classList.add('is-visible'), 600);
         }
@@ -445,6 +446,24 @@
                 try { localStorage.setItem(KEY, 'accept'); } catch {}
                 if (banner) banner.classList.remove('is-visible');
                 loadMap();
+            });
+        }
+
+        // Location tabs — switch which cafe is pinned on the map.
+        if (mapTabs && mapEl) {
+            mapTabs.querySelectorAll('.map-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    mapTabs.querySelectorAll('.map-tab').forEach(t => {
+                        const active = t === tab;
+                        t.classList.toggle('is-active', active);
+                        t.setAttribute('aria-selected', active ? 'true' : 'false');
+                    });
+                    mapEl.dataset.mapSrc = tab.dataset.mapSrc;
+                    // Only (re)load the iframe if the user already consented —
+                    // otherwise the placeholder stays and the choice updates the
+                    // pending src for when they accept.
+                    if (consentGiven()) loadMap();
+                });
             });
         }
     })();
