@@ -8,332 +8,64 @@
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* ----------------------------------------------------------
-       Photo library — real sushi photography (Unsplash CDN, free
-       for commercial use). Each card gets a photo matched to its
-       category and name keywords. If the photo fails to load,
-       the underlying coloured CSS visual stays visible.
+       Menu rendering — dish cards are built from data/menu.json so
+       the owner can edit the menu via /admin/ without touching code.
+       menuReady resolves once the cards are in the DOM, so the
+       category filter can wait for them.
        ---------------------------------------------------------- */
-    // All URLs pulled from real Unsplash category searches so each
-    // photo actually depicts food of the matching kind.
-    const U = id => `https://images.unsplash.com/photo-${id}?w=480&h=480&fit=crop&auto=format&q=70`;
-    const PHOTO = {
-        // Sushi platters — for SETS
-        setMixed:    U('1764183122524-974ccfb709fd'),
-        setDragon:   U('1774635804786-5ebb8f88dcdf'),
-        setSalmon:   U('1763647756796-af9230245bf8'),
-        setBlack:    U('1770164520620-a5612325635b'),
-        setGold:     U('1770966666358-37668256a29f'),
-        setExtra1:   U('1663334038419-71e6f82e333f'),
-        setExtra2:   U('1736885978380-8d7d9f7d7880'),
+    const esc = (s) => String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-        // Sushi rolls — from sushi-roll search
-        rollSalmon:  U('1579871494447-9811cf80d66c'),
-        rollPhilly:  U('1628676825875-031ad212c31e'),
-        rollDragon:  U('1659549307726-799b5dc4e7b9'),
-        rollTuna:    U('1579584425555-c3ce17fd4351'),
-        rollSpicy:   U('1629793981691-feaf80ccb0da'),
-        rollEel:     U('1712725213572-443fe866a69a'),
-        rollShrimp:  U('1774635812959-bd5cbaa9e496'),
-        rollCheese:  U('1609158987097-ce23ef9da2fc'),
-        rollCrab:    U('1629296334504-9b072456cab5'),
-        rollGreen:   U('1599569955274-e46bfc0cef6a'),
-        spring:      U('1689821675939-8b7bea53b32b'),
-        rolDog:      U('1640057661469-2943a8ed9ad0'),
+    const menuReady = (async function renderMenu() {
+        const grid = document.getElementById("menu-grid");
+        if (!grid) return;
+        let items = [];
+        try {
+            const r = await fetch("data/menu.json", { cache: "no-cache" });
+            if (r.ok) {
+                const data = await r.json();
+                items = Array.isArray(data) ? data : (data.items || []);
+            }
+        } catch (e) { /* leave grid empty on failure */ }
+        if (!items.length) return;
 
-        // Baked / hot rolls
-        baked:       U('1657895116431-cc32a587af2c'),
-        tempura:     U('1774635812959-bd5cbaa9e496'),
-        burger:      U('1675870792385-76389bc93f75'),
-        palychka:    U('1726824863411-615d1922e515'),
-        onigiri:     U('1615361200141-f45040f367be'),
+        const frag = document.createDocumentFragment();
+        items.forEach(item => {
+            const art = document.createElement("article");
+            art.className = "dish" + (item.big ? " dish--big" : "");
+            art.dataset.category = item.category || "";
+            art.setAttribute("data-order-trigger", "");
+            if (item.color) art.style.setProperty("--c", item.color);
 
-        // Maki rolls
-        makiSalmon:  U('1599569958048-2051d3f9a3e9'),
-        makiTuna:    U('1555341748-a9d443dc3c14'),
-        makiVeg:     U('1548907368-35e5ea8cbc8a'),
-        makiEel:     U('1558985212-92c2ff0b56e7'),
+            const visual = document.createElement("div");
+            visual.className = "dish__visual" + (item.variant ? " dish__visual--" + item.variant : "");
+            if (item.photo) {
+                const p = item.photo;
+                const src = (p.indexOf("http") === 0) ? p
+                          : (p.charAt(0) === "/" ? p.slice(1) : "img/dishes/" + p);
+                const img = document.createElement("img");
+                img.src = src;
+                img.alt = item.name || "";
+                img.loading = "lazy";
+                img.decoding = "async";
+                img.addEventListener("error", () => img.remove(), { once: true });
+                visual.appendChild(img);
+            }
 
-        // Nigiri
-        nigiriSalmon: U('1710945301326-d60727e4833a'),
-        nigiriShrimp: U('1562707786-7d2b807961c4'),
-        nigiriEel:    U('1637074930269-089fde202b57'),
+            const body = document.createElement("div");
+            body.className = "dish__body";
+            body.innerHTML =
+                (item.tag ? `<span class="dish__tag">${esc(item.tag)}</span>` : "") +
+                `<h3 class="dish__name">${esc(item.name)}</h3>` +
+                (item.desc ? `<p class="dish__desc">${esc(item.desc)}</p>` : "") +
+                `<div class="dish__foot"><span class="dish__price">${esc(item.price)}</span><span class="dish__weight">${esc(item.weight)}</span></div>`;
 
-        // Poke / sashimi bowls
-        bowlSalmon:   U('1597958792579-bd3517df6399'),
-        bowlShrimp:   U('1604259597308-5321e8e4789c'),
-        sashimi:      U('1670816978291-a5cf23d87968'),
-        tartar:       U('1604259596863-57153177d40b'),
-
-        // Noodles
-        udon:         U('1700323861852-069271b695b3'),
-        yakisoba:     U('1599314250681-8e05113e0e1b'),
-        funchoza:     U('1632381151399-cf5877736890'),
-        tepan:        U('1700323467210-9f9019cdbfd4'),
-
-        // Sushi donuts
-        donut:        U('1640057661469-2943a8ed9ad0'),
-
-        // Snacks
-        chuka:        U('1606471191009-63994c53433b'),
-        cheese:       U('1564834724105-918b73d1b9e0'),
-        shrimpTemp:   U('1759823338930-7996c1787c3b'),
-        nuggets:      U('1619881590738-a111d176d906'),
-        nuggets2:     U('1627662168223-7df99068099a'),
-        onion:        U('1639024471283-03518883512d'),
-        onion2:       U('1637231854063-dcc3b5c4e8aa'),
-        fries:        U('1630384060421-cb20d0e0649d'),
-        friesAlt:     U('1585109649139-366815a0d713'),
-        balls:        U('1541592106381-b31e9677c0e5')
-    };
-
-    // Map of exact dish names → local photo file (in img/dishes/).
-    // The user drops a photo here with the matching filename and the site
-    // automatically picks it up. If the file is missing, we fall back to
-    // the Unsplash stock photo.
-    const LOCAL = {
-        // Sets
-        'Дракон Сет': 'dragon-set.jpg',
-        'Преміум': 'premium-set.jpg',
-        'Філадельфія Сет': 'philadelphia-set.jpg',
-        'Блек': 'black-set.jpg',
-        'Сет Голд': 'gold-set.jpg',
-        'Лосось Сет': 'losos-set.jpg',
-        'Токіо': 'tokio-set.jpg',
-        'Фрі Сет': 'fri-set.jpg',
-        '50 / 50': '5050-set.jpg',
-        'Гриль Сет': 'gril-set.jpg',
-        'Триніті': 'triniti-set.jpg',
-        'Сакура': 'sakura-set.jpg',
-        'Фірмовий': 'firmovyy-set.jpg',
-        'Сет Мікс': 'set-mix.jpg',
-        'Кіото': 'kioto-set.jpg',
-        'Лосось / Тунець Гриль': 'losos-tunets-gril.jpg',
-
-        // Rolls
-        'Філадельфія': 'philadelphia.jpg',
-        'Філадельфія Класік': 'philadelphia-classic.jpg',
-        'Філадельфія Чедер': 'philadelphia-cheddar.jpg',
-        'Філадельфія Подвійний Сир': 'philadelphia-double-cheese.jpg',
-        'Фурі Рол': 'furi.jpg',
-        'Чедер Рол': 'cheddar-roll.jpg',
-        'Чорний Дракон': 'black-dragon.jpg',
-        'Червоний Дракон': 'red-dragon.jpg',
-        'Зелений Дракон': 'green-dragon.jpg',
-        'Тигровий Дракон': 'tiger-dragon.jpg',
-        'Чіз Рол': 'chiz-roll.jpg',
-        'Вугор з Лососем': 'vugor-losos.jpg',
-        'Грін Рол': 'grin-roll.jpg',
-        'Даба Лосось': 'daba-losos.jpg',
-        'Еббі Кранч': 'ebbi-kranch.jpg',
-        'Ебі Чедер': 'ebi-cheddar.jpg',
-        'Ебі Чіз': 'ebi-chiz.jpg',
-        'Каліфорнія': 'california.jpg',
-        'Кампай Сяке': 'kampay-syake.jpg',
-        'Кіро': 'kiro.jpg',
-        'Краб Рол': 'krab-roll.jpg',
-        'Магуро Тунець': 'maguro-tunets.jpg',
-        'Потрійна Креветка': 'potriyna-krevetka.jpg',
-        'Спайсі': 'spicy.jpg',
-        'Тобіко': 'tobiko.jpg',
-        'Рол-Дог з Куркою': 'rol-dog-kurka.jpg',
-        'Рол-Дог з Тунцем': 'rol-dog-tunets.jpg',
-        'Рол-Дог з Лососем': 'rol-dog-losos.jpg',
-        'Спрінг Сніжний': 'spring-snijniy.jpg',
-        'Спрінг з Креветкою': 'spring-krevetka.jpg',
-        'Спрінг з Лососем': 'spring-losos.jpg',
-        'Спрінг Туна-Лосось': 'spring-tuna-losos.jpg',
-
-        // Hot
-        'Запечений з Лососем': 'zapecheny-losos.jpg',
-        'Запечений з Тунцем': 'zapecheny-tunets.jpg',
-        'Панко': 'panko.jpg',
-        'Темпура': 'tempura.jpg',
-        'Тунець Хот': 'tunets-hot.jpg',
-        'Філадельфія Хот': 'philadelphia-hot.jpg',
-        'Чікен Чіз': 'chicken-chiz.jpg',
-        'Онігірі Фрі Креветка': 'onigiri-krevetka.jpg',
-        'Онігірі Фрі Лосось': 'onigiri-losos.jpg',
-        'Онігірі Фрі Тунець': 'onigiri-tunets.jpg',
-        'Паличка Фрі з Крабом': 'palychka-krab.jpg',
-        'Паличка Фрі з Лососем': 'palychka-losos.jpg',
-        'Паличка Фрі з Креветкою': 'palychka-krevetka.jpg',
-        'Бургер з Креветкою': 'burger-krevetka.jpg',
-        'Бургер з Тунцем': 'burger-tunets.jpg',
-        'Бургер з Лососем': 'burger-losos.jpg',
-
-        // Maki
-        'Макі Креветка': 'maki-krevetka.jpg',
-        'Макі Авокадо': 'maki-avokado.jpg',
-        'Макі Чука': 'maki-chuka.jpg',
-        'Макі Тунець': 'maki-tunets.jpg',
-        'Макі Огірок': 'maki-ogirok.jpg',
-        'Макі Лосось': 'maki-losos.jpg',
-        'Макі Копчений': 'maki-kopcheny.jpg',
-        'Макі Вугор': 'maki-vugor.jpg',
-
-        // Nigiri
-        'Нігірі Вугор': 'nigiri-vugor.jpg',
-        'Нігірі Лосось': 'nigiri-losos.jpg',
-        'Нігірі Креветка': 'nigiri-krevetka.jpg',
-
-        // Bowls & tartars
-        'Сашимі Мікс': 'sashimi-mix.jpg',
-        'Боул з Креветками': 'bowl-krevetka.jpg',
-        'Боул з Лососем': 'bowl-losos.jpg',
-        'Тартар Вугор з Лососем': 'tartar-vugor-losos.jpg',
-        'Тартар з Креветкою': 'tartar-krevetka.jpg',
-
-        // Noodles
-        'Тепаньяки з Куркою': 'tepanyaki-kurka.jpg',
-        'Удон з Куркою': 'udon-kurka.jpg',
-        'Удон з Морепродуктами': 'udon-moreprodukti.jpg',
-        'Удон Чікен Спайсі': 'udon-chicken-spicy.jpg',
-        'Фунчоза': 'funchoza.jpg',
-        'Харусаме з Морепродуктами': 'harusame-moreprodukti.jpg',
-        'Харусаме з Куркою': 'harusame-kurka.jpg',
-        'Якісоба з Рисом': 'yakisoba.jpg',
-
-        // Donuts
-        'Суші Пончик з Лососем': 'ponchik-losos.jpg',
-        'Суші Пончик з Креветкою': 'ponchik-krevetka.jpg',
-        'Суші Пончик з Вугрем': 'ponchik-vugor.jpg',
-        'Суші Пончик з Чедером': 'ponchik-cheddar.jpg',
-        'Суші Пончик з Тунцем': 'ponchik-tunets.jpg',
-        'Фрі-Пончик з Куркою': 'ponchik-kurka.jpg',
-
-        // Snacks
-        'Салат Чука': 'salat-chuka.jpg',
-        'Сир Брі': 'syr-bri.jpg',
-        'Креветки Темпура': 'krevetka-tempura.jpg',
-        'Курячі Стріпси': 'kuriachi-stripsi.jpg',
-        'Нагетси': 'nagetsi.jpg',
-        'Сирні Стріпси': 'syrni-stripsi.jpg',
-        'Цибулеві Кільця': 'cybulevi-kiltsia.jpg',
-        'Картопля Фрі': 'kartoplya-fri.jpg',
-        'Кульки Фрі': 'kulky-fri.jpg',
-        'Мікс Фрі': 'miks-fri.jpg',
-        'Крокети Картопляні': 'krokety.jpg'
-    };
-
-    function pickPhoto(dish) {
-        const name = (dish.querySelector('.dish__name')?.textContent || '').toLowerCase();
-        const cat  = dish.dataset.category;
-
-        // === Sets ===
-        if (cat === 'sets') {
-            if (name.includes('дракон'))   return PHOTO.setDragon;
-            if (name.includes('блек'))     return PHOTO.setBlack;
-            if (name.includes('голд'))     return PHOTO.setGold;
-            if (name.includes('лосось'))   return PHOTO.setSalmon;
-            return PHOTO.setMixed;
-        }
-        // === Nigiri ===
-        if (cat === 'nigiri') {
-            if (name.includes('лосось'))   return PHOTO.nigiriSalmon;
-            if (name.includes('креветк'))  return PHOTO.nigiriShrimp;
-            if (name.includes('вугор'))    return PHOTO.nigiriEel;
-            return PHOTO.nigiriSalmon;
-        }
-        // === Maki ===
-        if (cat === 'maki') {
-            if (name.includes('тунець'))   return PHOTO.makiTuna;
-            if (name.includes('вугор'))    return PHOTO.makiEel;
-            if (name.includes('авокадо') || name.includes('огірок') || name.includes('чука')) return PHOTO.makiVeg;
-            return PHOTO.makiSalmon;
-        }
-        // === Bowls / sashimi ===
-        if (cat === 'bowls') {
-            if (name.includes('сашимі'))   return PHOTO.sashimi;
-            if (name.includes('тартар'))   return PHOTO.tartar;
-            if (name.includes('креветк'))  return PHOTO.bowlShrimp;
-            return PHOTO.bowlSalmon;
-        }
-        // === Noodles ===
-        if (cat === 'noodles') {
-            if (name.includes('фунчоз'))   return PHOTO.funchoza;
-            if (name.includes('якісоб'))   return PHOTO.yakisoba;
-            if (name.includes('тепаньяк')) return PHOTO.tepan;
-            return PHOTO.udon;
-        }
-        // === Donuts ===
-        if (cat === 'donuts') return PHOTO.donut;
-        // === Snacks ===
-        if (cat === 'snacks') {
-            if (name.includes('чука'))     return PHOTO.chuka;
-            if (name.includes('сир') && name.includes('брі')) return PHOTO.cheese;
-            if (name.includes('сирн'))     return PHOTO.cheese;
-            if (name.includes('креветк'))  return PHOTO.shrimpTemp;
-            if (name.includes('нагетси') || name.includes('куряч')) return PHOTO.nuggets;
-            if (name.includes('цибул'))    return PHOTO.onion;
-            if (name.includes('фрі') && (name.includes('кульк'))) return PHOTO.balls;
-            if (name.includes('крокети'))  return PHOTO.balls;
-            if (name.includes('картопл') || name.includes('мікс')) return PHOTO.fries;
-            return PHOTO.fries;
-        }
-        // === Hot / baked ===
-        if (cat === 'hot') {
-            if (name.includes('бургер'))   return PHOTO.burger;
-            if (name.includes('паличк'))   return PHOTO.palychka;
-            if (name.includes('онігірі'))  return PHOTO.onigiri;
-            if (name.includes('темпур') || name.includes('панко')) return PHOTO.tempura;
-            return PHOTO.baked;
-        }
-        // === Rolls (default) ===
-        if (name.includes('дракон')) {
-            if (name.includes('червон'))   return PHOTO.rollDragon;
-            if (name.includes('зелен'))    return PHOTO.rollGreen;
-            return PHOTO.rollDragon;
-        }
-        if (name.includes('спайсі') || name.includes('тигр')) return PHOTO.rollSpicy;
-        if (name.includes('тунець') || name.includes('магуро')) return PHOTO.rollTuna;
-        if (name.includes('вугор'))         return PHOTO.rollEel;
-        if (name.includes('креветк') || name.includes('ебі') || name.includes('еббі')) return PHOTO.rollShrimp;
-        if (name.includes('чедер') || name.includes('сир') || name.includes('чіз')) return PHOTO.rollCheese;
-        if (name.includes('краб'))          return PHOTO.rollCrab;
-        if (name.includes('грін') || name.includes('зелен') || name.includes('авокад')) return PHOTO.rollGreen;
-        if (name.includes('спрінг'))        return PHOTO.spring;
-        if (name.includes('рол-дог'))       return PHOTO.rolDog;
-        if (name.includes('філадельф'))     return PHOTO.rollPhilly;
-        if (name.includes('лосось'))        return PHOTO.rollSalmon;
-        return PHOTO.rollSalmon;
-    }
-
-    // Photo attachment — synchronous, no preflight HEAD requests.
-    // If the dish has a local file mapped (we know it does because the
-    // owner uploaded the full set), use it directly. Browser's native
-    // lazy loading defers requests until the card scrolls near. If a
-    // local file does fail to load (404), the error handler falls back
-    // to the Unsplash stock photo, and if that fails too, removes <img>
-    // so the coloured CSS fallback stays visible.
-    function attachPhotos() {
-        document.querySelectorAll('.dish').forEach(dish => {
-            const visual = dish.querySelector('.dish__visual');
-            if (!visual || visual.querySelector('img')) return;
-            const exactName = dish.querySelector('.dish__name')?.textContent?.trim() || '';
-
-            const localUrl = LOCAL[exactName] ? `img/dishes/${LOCAL[exactName]}` : null;
-            const stockUrl = pickPhoto(dish);
-            const primary = localUrl || stockUrl;
-            if (!primary) return;
-
-            const img = document.createElement('img');
-            img.src = primary;
-            img.alt = '';
-            img.loading = 'lazy';
-            img.decoding = 'async';
-            let triedFallback = false;
-            img.addEventListener('error', () => {
-                if (!triedFallback && localUrl && stockUrl && img.src.endsWith(localUrl)) {
-                    triedFallback = true;
-                    img.src = stockUrl;
-                } else {
-                    img.remove();
-                }
-            });
-            visual.appendChild(img);
+            art.appendChild(visual);
+            art.appendChild(body);
+            frag.appendChild(art);
         });
-    }
-    attachPhotos();
+        grid.appendChild(frag);
+    })();
 
     /* ----------------------------------------------------------
        CMS data injection — fetches data/*.json and patches the
@@ -373,6 +105,61 @@
             setText('[data-site="phone"]',          site.primary_phone_display);
             setHref('[data-site="instagram_url"]',  site.instagram_url);
             setText('[data-site="instagram_handle"]', site.instagram_handle ? '@' + site.instagram_handle : null);
+
+            // ── Render the two (or more) locations from site.locations ──
+            const locs = Array.isArray(site.locations) ? site.locations : [];
+            if (locs.length) {
+                const tel = (p) => 'tel:' + String(p || '').replace(/\s+/g, '');
+                const route = (q) => 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(q || '');
+                const ICN_PIN   = '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>';
+                const ICN_PHONE = '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 15.5c-1.3 0-2.6-.2-3.8-.6a1 1 0 0 0-1 .2l-2.2 2.2a15.1 15.1 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .2-1A11 11 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1A17 17 0 0 0 20 21a1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1Z"/></svg>';
+                const ICN_CLOCK = '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-5v-2h3V6h2Z"/></svg>';
+                const ICN_ARROW = '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M5 12h12.17l-3.58-3.59L15 7l6 6-6 6-1.41-1.41L17.17 14H5z"/></svg>';
+
+                // Contact cards
+                const grid = document.getElementById('locations-grid');
+                if (grid) {
+                    grid.innerHTML = locs.map((l, i) => {
+                        const tag = i === 0 ? 'Заклад №1 · головний' : 'Заклад №' + (i + 1);
+                        const cityLine = esc(l.city) + (l.postal ? ', ' + esc(l.postal) : '');
+                        return `<article class="location reveal is-in">
+                            <header class="location__head">
+                                <span class="location__tag">${esc(tag)}</span>
+                                <h3 class="location__city">${esc(l.city)}</h3>
+                            </header>
+                            <ul class="location__list">
+                                <li><span class="contact__icn">${ICN_PIN}</span><div><em>Адреса</em><b>${esc(l.address)}<br>${cityLine}</b></div></li>
+                                <li><a href="${tel(l.phone)}"><span class="contact__icn">${ICN_PHONE}</span><div><em>Телефон</em><b>${esc(l.phone_display)}</b></div></a></li>
+                                <li><span class="contact__icn">${ICN_CLOCK}</span><div><em>Графік</em><b>${esc(l.hours)}</b></div></li>
+                            </ul>
+                            <a class="location__route" href="${route(l.map_query)}" target="_blank" rel="noopener">Прокласти маршрут ${ICN_ARROW}</a>
+                        </article>`;
+                    }).join('');
+                }
+
+                // Order-modal location picker
+                const modalLocs = document.getElementById('modal-locations');
+                if (modalLocs) {
+                    modalLocs.innerHTML = locs.map(l => `
+                        <a href="${tel(l.phone)}" class="order-modal__loc">
+                            <span class="order-modal__loc-city">${esc(l.city)}</span>
+                            <span class="order-modal__loc-addr">${esc(l.address)}</span>
+                            <span class="order-modal__loc-phone">${ICN_PHONE}${esc(l.phone_display)}</span>
+                        </a>`).join('');
+                }
+
+                // Footer location columns
+                const footerLocs = document.getElementById('footer-locations');
+                if (footerLocs) {
+                    footerLocs.innerHTML = locs.map(l => `
+                        <div>
+                            <h4>${esc(l.city)}</h4>
+                            <span>${esc(l.address)}</span>
+                            <a href="${tel(l.phone)}">${esc(l.phone_display)}</a>
+                            <span>${esc(l.hours)}</span>
+                        </div>`).join('');
+                }
+            }
         }
 
         if (hero) {
@@ -499,9 +286,9 @@
             lastFocused = triggerEl || document.activeElement;
             orderModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('modal-open');
-            // Focus the call button after the open animation kicks in
+            // Focus the first location button after the open animation kicks in
             setTimeout(() => {
-                const cta = orderModal.querySelector('.order-modal__cta');
+                const cta = orderModal.querySelector('.order-modal__loc');
                 if (cta) cta.focus({ preventScroll: true });
             }, 350);
         };
@@ -538,13 +325,13 @@
             }
         });
 
-        // After user taps the tel: link, close the modal so the dialer takes over
-        const telCta = orderModal.querySelector('.order-modal__cta');
-        if (telCta) {
-            telCta.addEventListener('click', () => {
+        // After user taps a location's tel: link, close the modal so the
+        // dialer takes over. Location buttons are rendered async, so delegate.
+        orderModal.addEventListener('click', (e) => {
+            if (e.target.closest('.order-modal__loc')) {
                 setTimeout(closeModal, 250);
-            });
-        }
+            }
+        });
     }
 
     /* ----------------------------------------------------------
@@ -553,12 +340,12 @@
     const filterBtns = document.querySelectorAll('.menu__filter');
     const menuGrid = document.getElementById('menu-grid');
     if (filterBtns.length && menuGrid) {
-        const dishes = Array.from(menuGrid.querySelectorAll('.dish'));
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const f = btn.dataset.filter;
                 filterBtns.forEach(b => b.classList.toggle('is-active', b === btn));
-                dishes.forEach(d => {
+                // Query live — cards are rendered asynchronously from menu.json
+                menuGrid.querySelectorAll('.dish').forEach(d => {
                     const match = (f === 'all') || (d.dataset.category === f);
                     d.hidden = !match;
                 });

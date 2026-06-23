@@ -77,3 +77,53 @@ collections:
           - { name: "title_line1",  label: "Заголовок (рядок 1)",             widget: "string", required: true }
           - { name: "title_line2",  label: "Заголовок (рядок 2, виділений)",  widget: "string", required: true }
           - { name: "description",  label: "Опис під заголовком",             widget: "text",   required: true }
+
+  # ─── Menu: all dishes ──────────────────────────────────────────────
+  - name: "menu"
+    label: "Меню (страви)"
+    description: "Усі позиції меню. Додавайте, редагуйте, видаляйте страви та змінюйте порядок перетягуванням."
+    files:
+      - name: "items"
+        label: "Список страв"
+        file: "data/menu.json"
+        format: "json"
+        fields:
+          - name: "items"
+            label: "Страви"
+            label_singular: "Страва"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.price}}"
+            fields:
+              - name: "category"
+                label: "Категорія"
+                widget: "select"
+                required: true
+                options:
+                  - { label: "Сети",            value: "sets" }
+                  - { label: "Роли",            value: "rolls" }
+                  - { label: "Запечені та хот",  value: "hot" }
+                  - { label: "Макі",            value: "maki" }
+                  - { label: "Нігірі",          value: "nigiri" }
+                  - { label: "Боули",           value: "bowls" }
+                  - { label: "Локшина",         value: "noodles" }
+                  - { label: "Пончики",         value: "donuts" }
+                  - { label: "Снеки",           value: "snacks" }
+              - { name: "name",   label: "Назва",        widget: "string", required: true }
+              - { name: "tag",    label: "Мітка/бейдж",  widget: "string", required: false, hint: "Напр. ★ хіт, класика, гостре" }
+              - { name: "desc",   label: "Опис / склад", widget: "text",   required: false }
+              - { name: "price",  label: "Ціна",         widget: "string", required: true, hint: "Напр. 240 ₴" }
+              - { name: "weight", label: "Вага / к-сть", widget: "string", required: false, hint: "Напр. 250 г або 8 шт" }
+              - { name: "photo",  label: "Фото страви",  widget: "image",  required: false, hint: "Завантажте фото — збережеться в img/dishes" }
+              - { name: "color",  label: "Колір (запасний, якщо нема фото)", widget: "color", required: false, default: "#fa8072" }
+              - { name: "big",    label: "Велика картка (для сетів)", widget: "boolean", required: false, default: false }
+              - name: "variant"
+                label: "Форма картинки"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "Рол (кружальце)", value: "" }
+                  - { label: "Сет (стопка)",    value: "stack" }
+                  - { label: "Нігірі",          value: "nigiri" }
+                  - { label: "Боул/локшина",    value: "bowl" }
+                  - { label: "Пончик",          value: "donut" }
+                  - { label: "Снек",            value: "snack" }
