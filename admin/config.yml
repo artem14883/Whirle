@@ -31,45 +31,49 @@ site_url: https://artem14883.github.io/Whirle/
 display_url: https://artem14883.github.io/Whirle/
 
 collections:
-  # ─── Settings: phone, address, hours, social ──────────────────────
+  # ─── Settings: brand, social, locations ───────────────────────────
   - name: "settings"
     label: "Налаштування кафе"
     label_singular: "Налаштування"
-    description: "Контактні дані, графік роботи, соцмережі. Зʼявляються в шапці, футері та секції «Контакти»."
+    description: "Бренд, соцмережі та заклади. Зʼявляються в шапці, футері, секції «Контакти» та у вікні замовлення."
     files:
       - name: "site"
         label: "Загальні налаштування"
         file: "data/site.json"
         format: "json"
         fields:
-          - { name: "phone",            label: "Телефон (з кодом +380)",                     widget: "string", required: true }
-          - { name: "phone_display",    label: "Телефон як показувати на сайті",             widget: "string", required: true, hint: "Напр. 063 776 45 72" }
-          - { name: "address",          label: "Адреса (рядок 1)",                           widget: "string", required: true, hint: "Напр. вулиця Ярослава Мудрого, 18" }
-          - { name: "address_city",     label: "Адреса (місто і індекс)",                    widget: "string", required: true, hint: "Напр. Корсунь-Шевченківський, 19401" }
-          - { name: "hours",            label: "Графік роботи",                              widget: "string", required: true, hint: "Напр. щодня · 11:00 — 21:00" }
-          - { name: "closes_at",        label: "Зачиняємось о",                              widget: "string", required: true, hint: "Напр. 21:00" }
-          - { name: "instagram_url",    label: "URL Instagram",                              widget: "string", required: true }
-          - { name: "instagram_handle", label: "Instagram (нік без @)",                      widget: "string", required: true }
-          - { name: "rating",           label: "Рейтинг на Google",                          widget: "string", required: false, default: "5,0" }
-          - { name: "reviews_count",    label: "Кількість відгуків",                         widget: "number", required: false, default: 31 }
+          - { name: "brand_tagline",        label: "Підпис під логотипом",        widget: "string", required: false, default: "Sushi Bar" }
+          - { name: "instagram_url",        label: "URL Instagram",               widget: "string", required: true }
+          - { name: "instagram_handle",     label: "Instagram (нік без @)",       widget: "string", required: true }
+          - { name: "rating",               label: "Рейтинг на Google",           widget: "string", required: false, default: "5,0" }
+          - { name: "reviews_count",        label: "Кількість відгуків",          widget: "number", required: false, default: 31 }
+          - { name: "primary_phone",        label: "Головний телефон (з +380)",   widget: "string", required: true, hint: "Технічне поле. Напр. +380637764572" }
+          - { name: "primary_phone_display", label: "Головний телефон (як показувати)", widget: "string", required: true, hint: "Напр. 063 776 45 72" }
+          - name: "locations"
+            label: "Заклади"
+            label_singular: "Заклад"
+            widget: "list"
+            summary: "{{fields.city}} — {{fields.address}}"
+            fields:
+              - { name: "city",         label: "Місто",                      widget: "string", required: true }
+              - { name: "address",      label: "Адреса (вулиця, будинок)",   widget: "string", required: true }
+              - { name: "postal",       label: "Поштовий індекс",            widget: "string", required: false }
+              - { name: "phone",        label: "Телефон (з +380)",           widget: "string", required: true, hint: "Напр. +380637764572" }
+              - { name: "phone_display", label: "Телефон (як показувати)",   widget: "string", required: true, hint: "Напр. 063 776 45 72" }
+              - { name: "hours",        label: "Графік роботи",              widget: "string", required: true, hint: "Напр. щодня · 11:00 — 21:00" }
+              - { name: "map_query",    label: "Запит для Google Maps",      widget: "string", required: true, hint: "Адреса для пошуку мітки на мапі" }
 
   # ─── Hero section copy ─────────────────────────────────────────────
   - name: "hero"
     label: "Головний блок (Hero)"
-    description: "Заголовок, опис та статистика над згином."
+    description: "Заголовок та опис у верхній частині сторінки."
     files:
       - name: "current"
         label: "Hero-блок"
         file: "data/hero.json"
         format: "json"
         fields:
-          - { name: "title_jp",     label: "Японський напис",     widget: "string", default: "寿司",        required: false }
-          - { name: "title_line1",  label: "Заголовок (рядок 1)", widget: "string", required: true }
-          - { name: "title_line2",  label: "Заголовок (рядок 2, виділений)", widget: "string", required: true }
-          - { name: "description",  label: "Опис під заголовком", widget: "text",   required: true }
-          - { name: "stat_1_value", label: "Стат. 1: значення",   widget: "string", required: true, hint: "Напр. 15хв" }
-          - { name: "stat_1_label", label: "Стат. 1: підпис",     widget: "string", required: true }
-          - { name: "stat_2_value", label: "Стат. 2: значення",   widget: "string", required: true }
-          - { name: "stat_2_label", label: "Стат. 2: підпис",     widget: "string", required: true }
-          - { name: "stat_3_value", label: "Стат. 3: значення",   widget: "string", required: true }
-          - { name: "stat_3_label", label: "Стат. 3: підпис",     widget: "string", required: true }
+          - { name: "title_jp",     label: "Японський напис",                 widget: "string", default: "寿司", required: false }
+          - { name: "title_line1",  label: "Заголовок (рядок 1)",             widget: "string", required: true }
+          - { name: "title_line2",  label: "Заголовок (рядок 2, виділений)",  widget: "string", required: true }
+          - { name: "description",  label: "Опис під заголовком",             widget: "text",   required: true }

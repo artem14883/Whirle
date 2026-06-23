@@ -1,0 +1,54 @@
+name: Deploy to paid hosting (FTP)
+
+# Uploads the site to the paid host every time main changes.
+# Decap CMS commits to GitHub → this action pushes the files to the host.
+#
+# SETUP (one time): in the GitHub repo go to
+#   Settings → Secrets and variables → Actions → New repository secret
+# and add these four secrets (values come from the hosting control panel):
+#   FTP_SERVER    e.g. ftp.shinobisushi.com.ua
+#   FTP_USERNAME  your FTP login
+#   FTP_PASSWORD  your FTP password
+#   FTP_DIR       target folder, usually public_html/  (keep the trailing slash)
+#
+# Until those secrets exist, this workflow is skipped automatically.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check FTP secrets are present
+        id: check
+        run: |
+          if [ -n "${{ secrets.FTP_SERVER }}" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::FTP secrets not set yet — skipping deploy. Add FTP_SERVER/FTP_USERNAME/FTP_PASSWORD/FTP_DIR in repo settings."
+          fi
+
+      - name: Deploy via FTP
+        if: steps.check.outputs.ready == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_DIR }}
+          # Don't upload repo/dev files to the live host
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.claude/**
+            README.md
+            ONBOARDING.md
+            admin/README.md
