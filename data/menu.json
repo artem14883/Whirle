@@ -1112,15 +1112,6 @@
       "weight": "150 г",
       "tag": "картопля",
       "category": "snacks"
-    },
-    {
-      "color": "#fa8072",
-      "big": false,
-      "category": "donuts",
-      "name": "Пончиккк",
-      "desc": "Пончииик",
-      "price": "111",
-      "weight": "111"
     }
   ]
 }
